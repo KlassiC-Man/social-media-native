@@ -13,13 +13,13 @@ function PostScreen({navigation}) {
     const [image, setImage] = useState(null);
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
+    const [photoUrl, setPhotoUrl] = useState('');
 
     //The current User!
     const user = firebase.auth().currentUser;
 
     //Create the name for the storage item!
     let name = Math.floor(10000 + Math.random() * 90000);
-
     
 
     useEffect(() => {
@@ -33,26 +33,7 @@ function PostScreen({navigation}) {
         })
     }, []);
 
-    /*function sendPost() {
-        let uploadTask = imagesRef.put(image).then((snapshot) => {
-            console.log("Uploaded the file!")
-        }).catch(error => alert(error));
-        let downloadURL = 'gs://soci-8909e.appspot.com/images/' + name + '.png';
-        console.log(downloadURL);
-        let fownloadURL = storageRef.child('images/'+name).getDownloadURL();
-        db.collection('posts').add({
-            user: user.displayName,
-            email: user.email,
-            message: input,
-            image: downloadURL,
-            profilePic: user.photoURL,
-            timestamp: 'Sample',
-        });
-        navigation.navigate('Home');
-    }*/
-
-
-    const handleUpload = (image) => {
+     async function handleUpload(image) {
         const data = new FormData();
         data.append('file', image);
         data.append('upload_preset', 'pfrzfrnr');
@@ -63,8 +44,8 @@ function PostScreen({navigation}) {
             body: data
         }).then(res => res.json()).
         then(data => {
-            console.log(data);
-            setImageUrl(data.url);
+            setPhotoUrl(data.secure_url);
+            //console.log(imageUrl);
         })
     }
 
@@ -102,11 +83,11 @@ function PostScreen({navigation}) {
         }
     };
 
-    function sendPost(){
-        db.collection('posts').add({
+    async function sendPost(){
+        await db.collection('posts').add({
             user: user.displayName,
             email: user.email,
-            image: imageUrl,
+            image: photoUrl,
             message: input,
             profilePic: user.photoURL,
             timestamp: 'Sample',
