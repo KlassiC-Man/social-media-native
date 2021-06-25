@@ -7,7 +7,7 @@ import { EvilIcons } from '@expo/vector-icons';
 
 function Post({user, email, message, image, profilePic, timestamp}) {
     return (
-        <View style={{borderWidth: 0.2, height: 500, margin: 10, flexDirection: 'column'}}>
+        <View style={{borderWidth: 0.2, margin: 10, flexDirection: 'column'}}>
             <View style={{margin: 5, flexDirection: 'row', flex: 1}}>
                 <Avatar rounded source={{uri: profilePic}} size={45} />
                 <Text style={{marginTop: 10, fontWeight: 'bold', marginLeft: 5, fontSize: 17}}>{user}</Text>

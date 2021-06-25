@@ -17,8 +17,15 @@ function Home({navigation}) {
 
     // useEffect for going through the posts and clicking snapshots!
     useEffect(() => {
-        db.collection('posts').onSnapshot(snapshot => {
-            setPosts(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})));
+        const posts = [];
+        db.collection('posts').get().then(snapshot => {
+            snapshot.docs.forEach(post => {
+                let currentId = post.id
+                let obj = { ...post.data(), ['id']: currentId }
+                posts.push(obj);
+                posts.push(post.data())
+            })
+            setPosts(posts);
         })
     }, [])
 
@@ -72,7 +79,10 @@ function Home({navigation}) {
                 <Avatar rounded size={60} source={{uri: user.photoURL}}/>
             </View>
             <View>
-                <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image={user.photoURL} timestamp='18 June 2021 at 12:25:06 UTC+5:30' />
+                {posts.map(post => (
+                    <Post key={post.id} user={user.displayName} profilePic={post.profilePic} message={post.message} image={post.image} />
+                ))}
+                <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image={user.photoURL} timestamp='18 June 2021 at 12:25:06 UTC+5:30' />
                 <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image='https://i.pinimg.com/originals/28/e5/cd/28e5cdc21f8ff8aae148932e4e6afafe.png' timestamp='18 June 2021 at 12:25:06 UTC+5:30' />
             </View>
         </ScrollView>
