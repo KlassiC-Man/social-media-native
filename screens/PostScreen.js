@@ -35,22 +35,6 @@ function PostScreen({navigation}) {
         })
     }, []);
 
-     async function handleUpload(image) {
-        const data = new FormData();
-        data.append('file', image);
-        data.append('upload_preset', 'pfrzfrnr');
-        data.append('cloud_name' ,'dyin2a2pd');
-
-        fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
-            method: 'post',
-            body: data
-        }).then(res => res.json()).
-        then(data => {
-            //setPhotoUrl(data.secure_url);
-            let theUrl = data.secure_url;
-        })
-    }
-
     //Change the title of the naviagtion pane and add a send button in the right side of the pane!
     useLayoutEffect(() => {
         navigation.setOptions({
