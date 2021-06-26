@@ -1,0 +1,4 @@
+**post screen plans!**
+
+I will have to combine the handleUpload function with sendPost so as I can get the url into my db.
+If I am successful in doing so it will be the final win!

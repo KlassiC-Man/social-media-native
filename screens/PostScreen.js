@@ -13,13 +13,15 @@ function PostScreen({navigation}) {
     const [image, setImage] = useState(null);
     const [input, setInput] = useState('');
     const [imageUrl, setImageUrl] = useState('');
-    const [photoUrl, setPhotoUrl] = useState('');
+    const [photo, setPhoto] = useState('');
 
     //The current User!
     const user = firebase.auth().currentUser;
 
     //Create the name for the storage item!
     let name = Math.floor(10000 + Math.random() * 90000);
+
+    let theUrl;
     
 
     useEffect(() => {
@@ -44,8 +46,8 @@ function PostScreen({navigation}) {
             body: data
         }).then(res => res.json()).
         then(data => {
-            setPhotoUrl(data.secure_url);
-            //console.log(imageUrl);
+            //setPhotoUrl(data.secure_url);
+            let theUrl = data.secure_url;
         })
     }
 
@@ -78,19 +80,29 @@ function PostScreen({navigation}) {
                  uri: result.uri,
                  type: `test/${result.uri.split('.')[1]}`,
                  name: `test.${result.uri.split(".")[1]}`}
-            handleUpload(newFile);
+            setPhoto(newFile);// I CAN SET THE PHOTO AS NEWFILE AND THEN SBMERGE THE FUNCTIONS OF HANDLEUPLOAD AND SENDPOST!!
             setImage(result.uri);
         }
     };
 
     async function sendPost(){
-        await db.collection('posts').add({
-            user: user.displayName,
-            email: user.email,
-            image: photoUrl,
-            message: input,
-            profilePic: user.photoURL,
-            timestamp: 'Sample',
+        const data = new FormData();
+        data.append('file', photo);
+        data.append('upload_preset', 'pfrzfrnr');
+        data.append('cloud_name' ,'dyin2a2pd');
+        fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
+            method: 'post',
+            body: data
+        }).then(res => res.json()).
+        then(data => {
+            db.collection('posts').add({
+                user: user.displayName,
+                email: user.email,
+                message: message,
+                image: data.secure_url,
+                timestamp: 'sample',
+                profilePic: user.photoURL,
+            })
         })
         navigation.navigate('Home');
     };
