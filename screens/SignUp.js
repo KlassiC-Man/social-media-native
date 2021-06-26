@@ -1,4 +1,3 @@
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
 import {Input, Button} from 'react-native-elements';
@@ -16,8 +15,15 @@ function SignUp({navigation}) {
             authUser.user.updateProfile({
                 displayName: name,
                 photoURL: imageUrl || require('../assets/default.png'),
-                bio: bio,
-            })
+            }).then(
+                db.collection('users').doc(name).set({
+                    name: name,
+                    email: email,
+                    followers: [],
+                    following: [],
+                    posts: [],
+                })
+            )
         }).catch(error => alert(error));
     };
 
@@ -28,7 +34,7 @@ function SignUp({navigation}) {
             <Input type='password' placeholder='password' value={password} secureTextEntry onChangeText={text => setPassword(text)} style={styles.input} />
             <Input type='text' placeholder='Image URL for Profile (Optional) .png or .jpeg links' onChangeText={text => setImageUrl(text)} style={styles.input} value={imageUrl} />
             {/*<Input type='text' placeholder='Bio' value={bio} onChangeText={text => setBio(text)} style={{marginTop: 20, paddingTop: 10, height: 20}} multiline={true} />*/}
-            <Button title='Choose Profile Picture' onPress={profilePicChooser} style={styles.button} />
+            {/*<Button title='Choose Profile Picture' onPress={profilePicChooser} style={styles.button} />*/}
             <Button title='Sign Up!' onPress={signUp} raised style={styles.button} />
         </ScrollView>
     )

@@ -8,6 +8,7 @@ import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import PostScreen from './screens/PostScreen';
 import UserProfile from './screens/UserProfile';
+import Search from './screens/Search';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Post' component={PostScreen} />
         <Stack.Screen name='UserProfile' component={UserProfile} />
+        <Stack.Screen name='Search' component={Search} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -12,7 +12,6 @@ function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [input, setInput] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
     const [photo, setPhoto] = useState('');
 
     //The current User!
