@@ -22,6 +22,7 @@ function SignUp({navigation}) {
                     followers: [],
                     following: [],
                     posts: [],
+                    profilePic: imageUrl,
                 })
             )
         }).catch(error => alert(error));

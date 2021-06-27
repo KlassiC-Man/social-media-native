@@ -84,7 +84,7 @@ function Home({navigation}) {
     };
 
     return(
-        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10}}>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor='#ddd' title='Pull to Refresh' />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10}}>
             <View style={{padding: 10, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={goToProfile}>
                     <Avatar rounded source={{uri: user.photoURL}} size={47} />    

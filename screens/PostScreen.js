@@ -20,7 +20,6 @@ function PostScreen({navigation}) {
     //Create the name for the storage item!
     let name = Math.floor(10000 + Math.random() * 90000);
 
-    let theUrl;
     
 
     useEffect(() => {
@@ -53,7 +52,7 @@ function PostScreen({navigation}) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: false,
-            aspect: [4, 3],
+            aspect: [7, 5],
             quality: 1,
         })
         console.log(result);
@@ -62,15 +61,17 @@ function PostScreen({navigation}) {
             let newFile = {
                  uri: result.uri,
                  type: `test/${result.uri.split('.')[1]}`,
-                 name: `test.${result.uri.split(".")[1]}`}
+                 name: `test.png`
+            }
             setPhoto(newFile);// I CAN SET THE PHOTO AS NEWFILE AND THEN SBMERGE THE FUNCTIONS OF HANDLEUPLOAD AND SENDPOST!!
-            setImage(result.uri);
+            setImage(result.uri);        
         }
     };
 
-    async function sendPost(){
+    //function for sending the post not working properly as expected!!!!!
+    function sendPost(){
         const data = new FormData();
-        data.append('file', photo);
+        data.append('file', '../assets/splash.png');
         data.append('upload_preset', 'pfrzfrnr');
         data.append('cloud_name' ,'dyin2a2pd');
         fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
@@ -86,7 +87,7 @@ function PostScreen({navigation}) {
                 timestamp: 'sample',
                 profilePic: user.photoURL,
             })
-        })
+        }).catch(e => alert(e));
         navigation.navigate('Home');
     };
 
