@@ -9,10 +9,13 @@ function Search({navigation}) {
     const [input, setInput] = React.useState('');
     const [users, setUsers] = React.useState([]);
 
+    // a reference to the 'users' collection.
     const collectionRef = db.collection('users');
 
+    // the current user
     const test = firebase.auth().currentUser;
 
+    // UseEffect for getting all the users from the database.
     useEffect(() => {
         const users = [];
         db.collection('users').get().then(snapshot => {
@@ -20,14 +23,14 @@ function Search({navigation}) {
                 let currentId = user.id
                 let obj = { ...user.data(), ['id']: currentId }
                 users.push(obj);
-                users.push(users.data())
+                users.push(users.data())// users a list push all the objects into it!
             })
-            setUsers(users);
+            setUsers(users);// set the users as users.
         })
     }, [])
 
     function search() {
-        
+        // This function has to be finalised
     };
 
     return (
