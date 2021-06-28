@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
+import {AntDesign} from '@expo/vector-icons';
 
 function SearchItem({image, name}) {
     return (

@@ -15,22 +15,18 @@ function Search({navigation}) {
     // the current user
     const test = firebase.auth().currentUser;
 
-    // UseEffect for getting all the users from the database.
     useEffect(() => {
-        const users = [];
-        db.collection('users').get().then(snapshot => {
-            snapshot.docs.forEach(user => {
-                let currentId = user.id
-                let obj = { ...user.data(), ['id']: currentId }
-                users.push(obj);
-                users.push(users.data())// users a list push all the objects into it!
-            })
-            setUsers(users);// set the users as users.
-        })
+	db.collection('users').onSnapshot((snapshot) => 
+		setUsers(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
+	);
     }, [])
 
     function search() {
-        // This function has to be finalised
+        if (input in users) {
+		console.log('Good!');
+	} else {
+		console.log('Not Working!');
+	}
     };
 
     return (
@@ -40,9 +36,9 @@ function Search({navigation}) {
                 <TouchableOpacity onPress={search}>
                     <AntDesign name='search1' size={35} style={{paddingLeft: 3}} />
                 </TouchableOpacity>
-                {users.map(user => (
+                {/*users.map(user => (
                     <SearchItem key={user.id} name={user.name} image={test.profilePic} />
-                ))}
+                ))*/}
             </View>
         </View>
     )
