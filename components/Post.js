@@ -14,7 +14,7 @@ function Post({user, email, message, image, profilePic, timestamp}) {
                 {/*<Text style={{paddingTop: 50, flex: 1, justifyContent: 'flex-start'}} multiline={true}>{message}</Text>*/}
             </View>
             <View style={{flexDirection: 'column'}}>
-                <Text multiline={true} style={{fontSize: 16}}>{message}</Text>
+                <Text multiline={true} style={{fontSize: 16}}>Hello!</Text>
                 {image && <Image style={{height: 400}} source={{uri: image}} />}
             </View>
             <View style={{paddingTop: 2, borderWidth: 0.2, height: 45, justifyContent: 'space-evenly', flex: 0.50, flexDirection: 'row'}}>

@@ -9,10 +9,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 
 function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState('');
     const [input, setInput] = useState('');
     const [photo, setPhoto] = useState('');
     const [dropdownOn, setDropdownOn] = useState(false);
@@ -24,6 +25,14 @@ function PostScreen({navigation}) {
     //Create the name for the storage item!
     let name = Math.floor(10000 + Math.random() * 90000);
 
+    useEffect(() => {
+        console.log(urlInput);
+        if (urlInput !== '') {
+            setImage(urlInput);
+        } else {
+            return;
+        }
+    }, [urlInput])
     
 
     useEffect(() => {
@@ -56,7 +65,7 @@ function PostScreen({navigation}) {
     let blob;
 
     //A function for picking the image!
-    async function pickImage() {
+    /*async function pickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -76,11 +85,11 @@ function PostScreen({navigation}) {
             //setPhoto(newFile);// I CAN SET THE PHOTO AS NEWFILE AND THEN SBMERGE THE FUNCTIONS OF HANDLEUPLOAD AND SENDPOST!!
             setImage(result.uri);        
         }
-    };
+    };*/
 
    
     //function for sending the post not working properly as expected!!!!!
-    function sendPost(){
+    /*function sendPost(){
         const data = new FormData();
         data.append('file', res);
         data.append('upload_preset', 'pfrzfrnr');
@@ -100,7 +109,20 @@ function PostScreen({navigation}) {
             })
         })
         navigation.navigate('Home');
-    };
+    };*/
+
+    function sendPost() {
+        db.collection('posts').add({
+            user: user.displayName,
+            email: user.email,
+            message: message,
+            image: image,
+            timestamp: 'sample',
+            profilePic: user.photoURL,
+        }).then(
+            navigation.navigate('Home')
+        ).catch(e => alert(e));
+    }
 
     function addPhotoWithLink() {
         if (dropdownOn === true) {
@@ -111,6 +133,7 @@ function PostScreen({navigation}) {
     };
 
     function submitPhotoUrl() {
+        setPhoto(urlInput);
         setImage(urlInput);
     };
 
@@ -119,9 +142,9 @@ function PostScreen({navigation}) {
         <ScrollView style={{flexDirection: 'column', display: 'flex'}} contentContainerStyle={{justifyContent: 'flex-start'}}>
             
             <View style={{backgroundColor: 'black', flexDirection: 'row', width: '100%', height: 50, justifyContent: 'space-evenly'}}>
-                <TouchableOpacity style={styles.sidebarIcon} onPress={pickImage}>
+                {/*<TouchableOpacity style={styles.sidebarIcon} onPress={pickImage}>}
                     <MaterialIcons name='monochrome-photos' size={40} color='#AEE8F5' />
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
                 <TouchableOpacity style={styles.sidebarIcons}>
                     <MaterialIcons name='gif' size={40} color='#AEE8F5' />
                 </TouchableOpacity>
