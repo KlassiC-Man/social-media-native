@@ -8,12 +8,15 @@ import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import Axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [input, setInput] = useState('');
     const [photo, setPhoto] = useState('');
+    const [dropdownOn, setDropdownOn] = useState(false);
+    const [urlInput, setUrlInput] = useState('');
 
     //The current User!
     const user = firebase.auth().currentUser;
@@ -99,29 +102,48 @@ function PostScreen({navigation}) {
         navigation.navigate('Home');
     };
 
+    function addPhotoWithLink() {
+        if (dropdownOn === true) {
+            setDropdownOn(false);
+        } else {
+            setDropdownOn(true);
+        }
+    };
+
+    function submitPhotoUrl() {
+        setImage(urlInput);
+    };
+
 
     return (
         <ScrollView style={{flexDirection: 'column', display: 'flex'}} contentContainerStyle={{justifyContent: 'flex-start'}}>
-	    <View style={{backgroundColor: 'lightgray', flexDirection: 'column', width: 50, height: 300}}>
-	    	<TouchableOpacity style={styles.sidebarIcon} onPress={pickImage}>
-			<MaterialIcons name='monochrome-photos' size={40} color='black' />
-	    	</TouchableOpacity>
-	    	<TouchableOpacity style={styles.sidebarIcons}>
-			<MaterialIcons name='gif' size={40} color='black' />
-	    	</TouchableOpacity>
-		<TouchableOpacity style={styles.sidebarIcons}>
-			<MaterialIcons name='video-library' size={40} color='black' />
-	    	</TouchableOpacity>	    	
-	    </View>
-	    <View style={{ flexDirection: 'row', borderColor: 'black', margin: 5, marginLeft: 70}}>
-               	<Avatar rounded size={50} source={{uri: user.photoURL}} />
-               	<Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>
+            
+            <View style={{backgroundColor: 'black', flexDirection: 'row', width: '100%', height: 50, justifyContent: 'space-evenly'}}>
+                <TouchableOpacity style={styles.sidebarIcon} onPress={pickImage}>
+                    <MaterialIcons name='monochrome-photos' size={40} color='#AEE8F5' />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.sidebarIcons}>
+                    <MaterialIcons name='gif' size={40} color='#AEE8F5' />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.sidebarIcons}>
+                    <MaterialIcons name='video-library' size={40} color='#AEE8F5' />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={addPhotoWithLink}>
+                    <Entypo name='link' size={40} color='#AEE8F5' />
+                </TouchableOpacity>
             </View>
-            <View style={{flexDirection: 'column', marginTop: 30, marginLeft: 70}}>
-               	<TextInput onChangeText={text => setInput(text)} style={{textAlignVertical: 'top', fontSize: 20, flex: 1, flexDirection: 'row', height: 50}} value={input} multiline={true} placeholder='Tell Your Friends Whats Going On' />
-               	{image && <Image source={{uri: image}} style={{height: 300, width: 380}} />}
+            {dropdownOn === true ? <View style={{flexDirection: 'row'}}>
+                {dropdownOn === true ? <TextInput style={{borderWidth: 1, margin: 5, borderRadius: 10, height: 40, flex: 1}} value={urlInput} onChangeText={text => setUrlInput(text)} placeholder='Photo Url With Url (.png, .jpeg at end)' /> : null}
+                <Button style={{width: 100, }} title='Submit' onPress={submitPhotoUrl} />
+            </View> : null}
+            <View style={{ flexDirection: 'row', borderColor: 'black', margin: 5, }}>
+                    <Avatar rounded size={50} source={{uri: user.photoURL}} />
+                    <Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>
+                </View>
+                <View style={{flexDirection: 'column', marginTop: 30, }}>
+                    <TextInput onChangeText={text => setInput(text)} style={{textAlignVertical: 'top', fontSize: 20, flex: 1, flexDirection: 'row', height: 50}} value={input} multiline={true} placeholder='Tell Your Friends Whats Going On' />
+                    {image && <Image source={{uri: image}} style={{height: 300, width: 380}} />}
             </View>
-	   
         </ScrollView>
     )
 };
