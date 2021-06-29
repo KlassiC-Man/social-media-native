@@ -20,7 +20,7 @@ function Search({navigation}) {
 
     function search() {
 	let whatWeNeed = db.collection('users').doc(input);
-    	console.log(whatWeNeed.segments);
+    	console.log(whatWeNeed);
     };
 
     return (
