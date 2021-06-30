@@ -14,10 +14,23 @@ import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState('');
-    const [input, setInput] = useState('');
     const [photo, setPhoto] = useState('');
     const [dropdownOn, setDropdownOn] = useState(false);
     const [urlInput, setUrlInput] = useState('');
+    const [gifs, setGifs] = useState([]);
+    const [term, updateTerm] = useState('');
+
+    async function fetchGifs() {
+        try {
+            const API_KEY = 'nWaLbyx0caR5OGDeIrdpXKPnRwVTlwMG';
+            const BASE_URL = 'http://api.giphy.com/v1/gifs/search';
+            const rejJson = await fetch(`${BASE_URL}?api_key=${API_KEY}&q=${term}`);
+            const res = await resJson.json();
+            setGifs(res.data);
+        } catch (e) {
+            alert(e);
+        }
+    }
 
     //The current User!
     const user = firebase.auth().currentUser;

@@ -32,7 +32,7 @@ function Home({navigation}) {
     // useEffect for going through the posts and clicking snapshots!
     useEffect(() => {
         const posts = [];
-        db.collection('posts').get().then(snapshot => {
+        db.collection('posts').get().orderBy('timestamp', 'desc').then(snapshot => {
             snapshot.docs.forEach(post => {
                 let currentId = post.id
                 let obj = { ...post.data(), ['id']: currentId }
