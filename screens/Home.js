@@ -32,7 +32,7 @@ function Home({navigation}) {
     // useEffect for going through the posts and clicking snapshots!
     useEffect(() => {
         const posts = [];
-        db.collection('posts').get().orderBy('timestamp', 'desc').then(snapshot => {
+        db.collection('posts').orderBy('timestamp', 'desc').get().then(snapshot => {
             snapshot.docs.forEach(post => {
                 let currentId = post.id
                 let obj = { ...post.data(), ['id']: currentId }
@@ -101,7 +101,7 @@ function Home({navigation}) {
             </View>
             <View>
                 {posts.map(post => (
-                    <Post key={post.id} user={post.user} profilePic={post.profilePic} message={post.message} image={post.image} />
+                    <Post key={post.id} id={post.id} user={post.user} profilePic={post.profilePic} message={post.message} image={post.image} />
                 ))}
                 <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image={user.photoURL} timestamp='18 June 2021 at 12:25:06 UTC+5:30' />
                 <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image='https://i.pinimg.com/originals/28/e5/cd/28e5cdc21f8ff8aae148932e4e6afafe.png' timestamp='18 June 2021 at 12:25:06 UTC+5:30' />

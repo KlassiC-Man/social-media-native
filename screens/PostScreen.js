@@ -5,11 +5,12 @@ import { Feather } from '@expo/vector-icons';
 import {auth, db, storage} from '../firebase';
 import * as firebase from 'firebase';
 import * as ImagePicker from 'expo-image-picker';
-import { ScrollView } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Axios from 'axios';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
+import {GifSearch} from 'react-native-gif-search';
 
 function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
@@ -19,18 +20,27 @@ function PostScreen({navigation}) {
     const [urlInput, setUrlInput] = useState('');
     const [gifs, setGifs] = useState([]);
     const [term, updateTerm] = useState('');
+    const [showGifsSelector, setShowGifsSelector] = useState(false);
 
     async function fetchGifs() {
         try {
             const API_KEY = 'nWaLbyx0caR5OGDeIrdpXKPnRwVTlwMG';
             const BASE_URL = 'http://api.giphy.com/v1/gifs/search';
-            const rejJson = await fetch(`${BASE_URL}?api_key=${API_KEY}&q=${term}`);
+            const resJson = await fetch(`${BASE_URL}?api_key=${API_KEY}&q=${term}`);
             const res = await resJson.json();
             setGifs(res.data);
         } catch (e) {
             alert(e);
         }
     }
+
+    function pickGif() {
+        if (showGifsSelector === true) {
+            setShowGifsSelector(false);
+        } else {
+            setShowGifsSelector(true);
+        }
+    };
 
     //The current User!
     const user = firebase.auth().currentUser;
@@ -100,6 +110,7 @@ function PostScreen({navigation}) {
                     image: data.secure_url,
                     timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                     profilePic: user.photoURL,
+                    likes: 0,
                 })
             })
             navigation.navigate('Home');
@@ -111,6 +122,7 @@ function PostScreen({navigation}) {
                 image: image,
                 timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 profilePic: user.photoURL,
+                likes: 0,
             })
             navigation.navigate('Home');
         } else {
@@ -120,25 +132,11 @@ function PostScreen({navigation}) {
                 message: message,
                 timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 profilePic: user.photoURL,
+                likes: 0,
             })
             navigation.navigate('Home');
         }
     }
-        
-
-    /*function sendPost() {
-        db.collection('posts').add({
-            user: user.displayName,
-            email: user.email,
-            message: message,
-            image: image,
-            timestamp: 'sample',
-            profilePic: user.photoURL,
-        }).then(setTimeout(() => {
-            navigation.navigate('Home');
-        }, 4000)
-        ).catch(e => alert(e));
-    }*/
 
     function addPhotoWithLink() {
         if (dropdownOn === true) {
@@ -152,6 +150,10 @@ function PostScreen({navigation}) {
         setImage(urlInput);
     };
 
+    function selectGif(item) {
+        setImage(item);
+    };
+
     return (
         <ScrollView style={{flexDirection: 'column', display: 'flex'}} contentContainerStyle={{justifyContent: 'flex-start'}}>
             
@@ -159,7 +161,7 @@ function PostScreen({navigation}) {
                 <TouchableOpacity style={styles.sidebarIcon} onPress={pickImage}>
                     <MaterialIcons name='monochrome-photos' size={40} color='#AEE8F5' />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.sidebarIcons}>
+                <TouchableOpacity style={styles.sidebarIcons} onPress={pickGif}>
                     <MaterialIcons name='gif' size={40} color='#AEE8F5' />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sidebarIcons}>
@@ -173,6 +175,25 @@ function PostScreen({navigation}) {
                 {dropdownOn === true ? <TextInput style={{borderWidth: 1, margin: 5, borderRadius: 10, height: 40, flex: 1}} value={urlInput} onChangeText={text => setUrlInput(text)} placeholder='Photo Url With Url (.png, .jpeg at end)' /> : null}
                 <Button style={{width: 100, }} title='Submit' onPress={submitPhotoUrl} />
             </View> : null}
+            {showGifsSelector === true ? <View>
+                <GifSearch giphyApiKey='nWaLbyx0caR5OGDeIrdpXKPnRwVTlwMG'
+                    gifsToLoad={10}
+                    maxGifsToLoad={25}
+                    style={{backgroundColor: 'white', borderWidth: 3, borderRadius: 10}}
+                    textInputStyle={{fontWeight: 'bold', color: 'black'}}
+                    gifListStyle={{height:320}}
+                    gifStyle={{height:160}}
+                    loadingSpinnerColor={'black'}
+                    placeholderTextColor={'grey'}
+                    placeholderText={'Search'}
+                    darkGiphyLogo={true}
+                    onGifSelected={(gif_url) => {setImage(gif_url)}}
+                    developmentMode={false}
+                    horizontal={false}
+                    showScrollBar={false}
+                    onError={(error) => {console.log(error)}}
+                />
+            </View>: null}
             <View style={{ flexDirection: 'row', borderColor: 'black', margin: 5, }}>
                     <Avatar rounded size={50} source={{uri: user.photoURL}} />
                     <Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>

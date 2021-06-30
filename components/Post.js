@@ -5,7 +5,7 @@ import {db, storage, auth} from '../firebase';
 import { AntDesign } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 
-function Post({user, email, message, image, profilePic, timestamp}) {
+function Post({user, email, message, image, profilePic, timestamp, id}) {
     return (
         <View style={{borderWidth: 0.2, margin: 10, flexDirection: 'column'}}>
             <View style={{margin: 5, flexDirection: 'row', flex: 1}}>
