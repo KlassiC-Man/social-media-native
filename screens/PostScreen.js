@@ -62,36 +62,58 @@ function PostScreen({navigation}) {
             }
 	        res = await fetch(result.uri);
 	        blob = await res.blob();
-            //setPhoto(newFile);// I CAN SET THE PHOTO AS NEWFILE AND THEN SBMERGE THE FUNCTIONS OF HANDLEUPLOAD AND SENDPOST!!
+            setPhoto(newFile);// I CAN SET THE PHOTO AS NEWFILE AND THEN SBMERGE THE FUNCTIONS OF HANDLEUPLOAD AND SENDPOST!!
             setImage(result.uri);        
         }
     };
 
    
     //function for sending the post not working properly as expected!!!!!
-    /*function sendPost(){
-        const data = new FormData();
-        data.append('file', res);
-        data.append('upload_preset', 'pfrzfrnr');
-        data.append('cloud_name' ,'dyin2a2pd');
-        fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
-            method: 'post',
-            body: data
-        }).then(res => res.json()).
-        then(data => {
+    function sendPost(){
+        if (photo !== '') {
+            const data = new FormData();
+            data.append('file', photo);
+            data.append('upload_preset', 'pfrzfrnr');
+            data.append('cloud_name' ,'dyin2a2pd');
+            fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
+                method: 'post',
+                body: data
+            }).then(res => res.json()).
+            then(data => {
+                db.collection('posts').add({
+                    user: user.displayName,
+                    email: user.email,
+                    message: message,
+                    image: data.secure_url,
+                    timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                    profilePic: user.photoURL,
+                })
+            })
+            navigation.navigate('Home');
+        } else if (photo === '') {
             db.collection('posts').add({
                 user: user.displayName,
                 email: user.email,
                 message: message,
-                image: data.secure_url,
-                timestamp: 'sample',
+                image: image,
+                timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 profilePic: user.photoURL,
             })
-        })
-        navigation.navigate('Home');
-    };*/
+            navigation.navigate('Home');
+        } else {
+            db.collection('posts').add({
+                user: user.displayName,
+                email: user.email,
+                message: message,
+                timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                profilePic: user.photoURL,
+            })
+            navigation.navigate('Home');
+        }
+    }
+        
 
-    function sendPost() {
+    /*function sendPost() {
         db.collection('posts').add({
             user: user.displayName,
             email: user.email,
@@ -103,7 +125,7 @@ function PostScreen({navigation}) {
             navigation.navigate('Home');
         }, 4000)
         ).catch(e => alert(e));
-    }
+    }*/
 
     function addPhotoWithLink() {
         if (dropdownOn === true) {
@@ -114,7 +136,6 @@ function PostScreen({navigation}) {
     };
 
     function submitPhotoUrl() {
-        setPhoto(urlInput);
         setImage(urlInput);
     };
 
@@ -143,7 +164,7 @@ function PostScreen({navigation}) {
                     <Avatar rounded size={50} source={{uri: user.photoURL}} />
                     <Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>
                     <TouchableOpacity onPress={sendPost} style={{marginLeft: 200}}>
-                        <Feather name='send' size={40} color='black' />
+                        <Feather name='send' size={25} color='black' />
                     </TouchableOpacity>
                 </View>
                 <View style={{flexDirection: 'column', marginTop: 30, }}>

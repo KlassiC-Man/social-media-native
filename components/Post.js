@@ -15,7 +15,7 @@ function Post({user, email, message, image, profilePic, timestamp}) {
             </View>
             <View style={{flexDirection: 'column'}}>
                 <Text multiline={true} style={{fontSize: 16}}>{message}</Text>
-                {image && <Image style={{height: 400}} source={{uri: image}} />}
+                {image !== '' ? <Image style={{height: 400}} source={{uri: image}} /> : null}
             </View>
             <View style={{paddingTop: 2, borderWidth: 0.2, height: 45, justifyContent: 'space-evenly', flex: 0.50, flexDirection: 'row'}}>
                 <TouchableOpacity>
