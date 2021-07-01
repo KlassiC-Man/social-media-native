@@ -63,7 +63,7 @@ function PostScreen({navigation}) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [7, 5],
+            aspect: [7, 10],
             quality: 1,
         })
         console.log(result);
@@ -174,9 +174,9 @@ function PostScreen({navigation}) {
                 {dropdownOn === true ? <TextInput style={{borderWidth: 1, margin: 5, borderRadius: 10, height: 40, flex: 1}} value={urlInput} onChangeText={text => setUrlInput(text)} placeholder='Photo Url With Url (.png, .jpeg at end)' /> : null}
                 <Button style={{width: 100, }} title='Submit' onPress={submitPhotoUrl} />
             </View> : null}
-            {showGifsSelector === true ? <View>
+            {showGifsSelector === true ? <ScrollView>
                 <GifSearch giphyApiKey='nWaLbyx0caR5OGDeIrdpXKPnRwVTlwMG'
-                    gifsToLoad={10}
+                    gifsToLoad={20}
                     maxGifsToLoad={25}
                     style={{backgroundColor: 'white', borderWidth: 3, borderRadius: 10}}
                     textInputStyle={{fontWeight: 'bold', color: 'black'}}
@@ -192,17 +192,17 @@ function PostScreen({navigation}) {
                     showScrollBar={false}
                     onError={(error) => {console.log(error)}}
                 />
-            </View>: null}
+            </ScrollView>: null}
             <View style={{ flexDirection: 'row', borderColor: 'black', margin: 5, }}>
-                    <Avatar rounded size={50} source={{uri: user.photoURL}} />
-                    <Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>
-                    <TouchableOpacity onPress={sendPost} style={{marginLeft: 200}}>
-                        <Feather name='send' size={25} color='black' />
-                    </TouchableOpacity>
-                </View>
-                <View style={{flexDirection: 'column', marginTop: 30, }}>
-                    <TextInput onChangeText={text => setMessage(text)} style={{textAlignVertical: 'top', fontSize: 20, flex: 1, flexDirection: 'row', height: 50}} value={message} multiline={true} placeholder='Tell Your Friends Whats Going On' />
-                    {image !== '' ? <Image source={{uri: image}} style={{height: 300, width: 380}} /> : null}
+                <Avatar rounded size={50} source={{uri: user.photoURL}} />
+                <Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>
+                <TouchableOpacity onPress={sendPost} style={{marginLeft: 200}}>
+                    <Feather name='send' size={35} color='black' />
+                </TouchableOpacity>
+            </View>
+            <View style={{flexDirection: 'column', marginTop: 30, }}>
+                <TextInput onChangeText={text => setMessage(text)} style={{textAlignVertical: 'top', fontSize: 20, flex: 1, flexDirection: 'row', height: 50}} value={message} multiline={true} placeholder='Tell Your Friends Whats Going On' />
+                {image !== '' ? <Image source={{uri: image}} style={{height: 300, width: 380}} /> : null}
             </View>
         </ScrollView>
     )
