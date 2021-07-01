@@ -12,11 +12,11 @@ function Search({navigation}) {
     // the current user
     const test = firebase.auth().currentUser;
 
-    useEffect(() => {
+    /*useEffect(() => {
 	db.collection('users').onSnapshot((snapshot) => 
 		setUsers(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
 	);
-    }, [])
+    }, [])*/
 
     function search() {
 	let whatWeNeed = db.collection('users').doc(input);

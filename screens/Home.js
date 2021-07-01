@@ -51,7 +51,7 @@ function Home({navigation}) {
                     <TouchableOpacity >
                         <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={navigation.navigate('Marketplace')}>
                         <Entypo name='shop' size={34} color='black' style={styles.headerLogo} />
                     </TouchableOpacity>
                     <TouchableOpacity>

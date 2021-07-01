@@ -9,6 +9,7 @@ import Home from './screens/Home';
 import PostScreen from './screens/PostScreen';
 import UserProfile from './screens/UserProfile';
 import Search from './screens/Search';
+import Marketplace from './screens/Marketplace';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name='Post' component={PostScreen} />
         <Stack.Screen name='UserProfile' component={UserProfile} />
         <Stack.Screen name='Search' component={Search} />
+        <Stack.Screen name='Marketplace' component={Marketplace} />
       </Stack.Navigator>
     </NavigationContainer>
   );

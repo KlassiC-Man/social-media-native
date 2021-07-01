@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import {auth, db} from '../firebase';
 
@@ -37,6 +37,9 @@ function SignUp({navigation}) {
             {/*<Input type='text' placeholder='Bio' value={bio} onChangeText={text => setBio(text)} style={{marginTop: 20, paddingTop: 10, height: 20}} multiline={true} />*/}
             {/*<Button title='Choose Profile Picture' onPress={profilePicChooser} style={styles.button} />*/}
             <Button title='Sign Up!' onPress={signUp} raised style={styles.button} />
+            <TouchableOpacity>
+                <Text>Create An Organisation (Not functional As Of Now!)</Text>
+            </TouchableOpacity>
         </ScrollView>
     )
 }
