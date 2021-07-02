@@ -11,6 +11,7 @@ import UserProfile from './screens/UserProfile';
 import Search from './screens/Search';
 import Marketplace from './screens/Marketplace';
 import AddItem from './screens/AddItem';
+import SellItemScreen from './screens/SellItemScreen';
 
 
 const Stack = createStackNavigator();
@@ -27,6 +28,7 @@ export default function App() {
         <Stack.Screen name='Search' component={Search} />
         <Stack.Screen name='Marketplace' component={Marketplace} />
         <Stack.Screen name='AddItem' component={AddItem} />
+        <Stack.Screen name='SellItemScreen' component={SellItemScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
