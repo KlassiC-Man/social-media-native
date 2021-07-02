@@ -43,6 +43,10 @@ function Home({navigation}) {
         })
     }, [])
 
+    function navigateToMarket() {
+        navigation.navigate('Marketplace');
+    };
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: '',
@@ -51,7 +55,7 @@ function Home({navigation}) {
                     <TouchableOpacity >
                         <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={navigateToMarket}>
                         <Entypo name='shop' size={34} color='black' style={styles.headerLogo} />
                     </TouchableOpacity>
                     <TouchableOpacity>
