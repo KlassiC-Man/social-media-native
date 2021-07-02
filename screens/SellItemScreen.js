@@ -1,8 +1,10 @@
 import React, { useLayoutEffect } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, ScrollView } from 'react-native'
 import AddItem from './AddItem'
 
-function SellItemScreen({navigation, id, image}) {
+function SellItemScreen({navigation, route}) {
+    const {id, item, image, price, category, timestamp} = route.params;
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Item Page',
@@ -10,10 +12,11 @@ function SellItemScreen({navigation, id, image}) {
     }, [navigation])
 
     return (
-        <View>
-            <Text>{id}</Text>
-            <Image source={{uri: image}} style={{height: 50}} />
-        </View>
+        <ScrollView>
+            <Image source={{uri: image}} style={{height: 350}} />
+            <Text style={{fontSize: 30, fontWeight: 'bold', textAlign: 'center', fontFamily: 'Roboto', flexWrap: 'wrap'}} >{item}</Text>
+            <Text style={{color: 'gray', marginTop: 10}}>Posted On : {timestamp}</Text>
+        </ScrollView>
     )
 }
 
