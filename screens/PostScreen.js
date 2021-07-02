@@ -11,6 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 import {GifSearch} from 'react-native-gif-search';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
@@ -21,18 +22,8 @@ function PostScreen({navigation}) {
     const [gifs, setGifs] = useState([]);
     const [term, updateTerm] = useState('');
     const [showGifsSelector, setShowGifsSelector] = useState(false);
-
-    async function fetchGifs() {
-        try {
-            const API_KEY = 'nWaLbyx0caR5OGDeIrdpXKPnRwVTlwMG';
-            const BASE_URL = 'http://api.giphy.com/v1/gifs/search';
-            const resJson = await fetch(`${BASE_URL}?api_key=${API_KEY}&q=${term}`);
-            const res = await resJson.json();
-            setGifs(res.data);
-        } catch (e) {
-            alert(e);
-        }
-    }
+    /*const [video, setVideo] = useState('');
+    const [status, setStatus] = useState({});*/
 
     function pickGif() {
         if (showGifsSelector === true) {
@@ -88,6 +79,15 @@ function PostScreen({navigation}) {
             setPhoto(newFile);// I CAN SET THE PHOTO AS NEWFILE AND THEN SBMERGE THE FUNCTIONS OF HANDLEUPLOAD AND SENDPOST!!
             setImage(result.uri);        
         }
+    };
+
+    async function pickVid() {
+      //  let result = await ImagePicker.launchImageLibraryAsync({
+        //    mediaTypes: ImagePicker.MediaTypeOptions.All,
+          //  videoQuality: 1,
+        //})
+        //console.log(result);
+        //setVideo(result.uri);
     };
 
    
@@ -163,7 +163,7 @@ function PostScreen({navigation}) {
                 <TouchableOpacity style={styles.sidebarIcons} onPress={pickGif}>
                     <MaterialIcons name='gif' size={40} color='#AEE8F5' />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.sidebarIcons}>
+                <TouchableOpacity style={styles.sidebarIcons} onPress={pickVid}>
                     <MaterialIcons name='video-library' size={40} color='#AEE8F5' />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={addPhotoWithLink}>

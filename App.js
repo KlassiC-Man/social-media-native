@@ -12,6 +12,7 @@ import Search from './screens/Search';
 import Marketplace from './screens/Marketplace';
 import AddItem from './screens/AddItem';
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
