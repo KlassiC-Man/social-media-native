@@ -18,6 +18,10 @@ function Chat({navigation}) {
     return (
         <ScrollView>
             <ChatItem />
+            <ChatItem />
+            <ChatItem />
+            <ChatItem />
+            <ChatItem />
         </ScrollView>
     )
 };
