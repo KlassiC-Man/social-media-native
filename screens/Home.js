@@ -49,28 +49,8 @@ function Home({navigation}) {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: '',
-            headerLeft: () => (// doesnt work in one touchableopacity!!!!! Have to try with different views!
-                <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                    <TouchableOpacity >
-                        <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={navigateToMarket}>
-                        <Entypo name='shop' size={34} color='black' style={styles.headerLogo} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FontAwesome name='group' size={34} color='black' style={styles.headerLogo} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Feather name="airplay" size={34} color="black" style={styles.headerLogo} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Feather name="bell" size={34} color="black" style={styles.headerLogo} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={goToSearchWindow}>
-                        <AntDesign name='search1' size={30} style={styles.headerLogo} />
-                    </TouchableOpacity>
-                </View>
+            header: () => (
+                <View style={{height: 0}}></View>
             ),
         })
     }, [navigation])
@@ -87,8 +67,32 @@ function Home({navigation}) {
         navigation.navigate('UserProfile');
     };
 
+    function navigateToChat() {
+        navigation.navigate('Chat')
+    };
+
     return(
-        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor='#ddd' title='Pull to Refresh' />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10}}>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor='#ddd' title='Pull to Refresh' />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10, marginTop: 50}}>
+            <View style={{flexDirection: 'row', borderBottomWidth: 1}}>
+                <TouchableOpacity >
+                    <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={navigateToMarket}>
+                    <Entypo name='shop' size={34} color='black' style={styles.headerLogo} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={navigateToChat}>
+                    <FontAwesome name='group' size={34} color='black' style={styles.headerLogo} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Feather name="airplay" size={34} color="black" style={styles.headerLogo} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Feather name="bell" size={34} color="black" style={styles.headerLogo} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={goToSearchWindow} >
+                    <AntDesign name='search1' size={30} style={styles.headerLogo} />
+                </TouchableOpacity>
+            </View>
             <View style={{padding: 10, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={goToProfile}>
                     <Avatar rounded source={{uri: user.photoURL}} size={47} />    
@@ -119,5 +123,6 @@ export default Home;
 const styles =  StyleSheet.create({
     headerLogo: {
         marginLeft: 24,
+        marginBottom: 5
     },  
 });

@@ -75,6 +75,7 @@ function AddItem({navigation}) {
                 condition: condition,
                 description: description,
                 timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+                profilePic: user.photoURL,
             }).then(
                 navigation.replace('Marketplace')
             )

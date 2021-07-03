@@ -47,7 +47,7 @@ function Marketplace({navigation}) {
             </View>
             <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                 {items.map(item => (    
-                    <MarketItem key={item.id} id={item.id} user={item.user} image={item.image} price={item.price} item={item.name} category={item.category} navigation={navigation} />
+                    <MarketItem key={item.id} id={item.id} user={item.user} image={item.image} timestamp={item.timestamp} price={item.price} item={item.name} category={item.category} navigation={navigation} />
                 ))}
                 {/*<MarketItem item='Raspberry Pi' price='3000' image='https://www.raspberrypi.org/homepage-9df4b/static/bdc42b00ebe8f2312c4d229beb9325bf/43eee/7d247ace-afb2-4555-b7b3-4f236eb779d6_Raspberry%2BPi%2BPico%2B1.jpg' profilePic={user.photoURL} user={user.displayName}  />*/}
             </View>

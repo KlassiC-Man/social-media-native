@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import {Avatar} from 'react-native-elements';
 
-function MarketItem({ id,item, image, timestamp, price, category, navigation}) {
+function MarketItem({ id,item, image, timestamp, price, category, navigation, user}) {
     function navigateToSellItem() {
         navigation.navigate('SellItemScreen', {
             id: id,
@@ -11,6 +11,7 @@ function MarketItem({ id,item, image, timestamp, price, category, navigation}) {
             price: price,
             category: category,
             timestamp: timestamp,
+            user: user,
         })
     };
 
