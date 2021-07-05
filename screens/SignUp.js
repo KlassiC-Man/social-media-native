@@ -11,6 +11,7 @@ function SignUp({navigation}) {
     const [password, setPassword] = useState('');
     const [imageUrl, setImageUrl] = useState('../assets/defaultPic.jpeg');
     const [bio, setBio] = useState('');
+    const [photo, setPhoto] = useState('../assets/defaultPic.jpeg');
 
     useEffect(() => {
         (async () => {
@@ -24,28 +25,29 @@ function SignUp({navigation}) {
     }, []);
 
     function signUp() {
-        auth.createUserWithEmailAndPassword(email, password).then(authUser => {
-            authUser.user.updateProfile({
-                displayName: name,
-            })
-        })
         const data = new FormData();
-        data.append('file', imageUrl);
+        data.append('file', photo);
         data.append('upload_preset', 'pfrzfrnr');
         data.append('cloud_name', 'dyin2a2pd');
         fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
             method: 'post',
             body: data
         }).then(res => res.json()).then(data => {
-            db.collection('users').doc(name).set({
+            db.collection('users').add({
                 name: name,
                 email: email,
-                followers: [],
+                follower: [],
                 following: [],
                 posts: [],
-                profilePic: data.secure_url,
-            }) 
-        }).catch(error => alert(error));
+                profilePic: data.secure_url
+            })
+            auth.createUserWithEmailAndPassword(email, password).then(authUser => {
+                authUser.user.updateProfile({
+                    displayName: name,
+                    photoURL: data.secure_url,
+                })
+            })
+        })
     };
         
 
@@ -65,6 +67,7 @@ function SignUp({navigation}) {
                 name: 'test.png',
             }
             setImageUrl(result.uri);
+            setPhoto(newFile);
         }
     };
 

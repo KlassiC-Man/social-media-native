@@ -5,7 +5,7 @@ import { Avatar, ListItem } from 'react-native-elements';
 import { UserInterfaceIdiom } from 'expo-constants';
 import * as firebase from 'firebase';
 
-function ChatItem({navigation}) {
+function ChatItem({navigation, name, lastMsg}) {
     const user = firebase.auth().currentUser;
 
     function enterTheChat() {
@@ -17,10 +17,10 @@ function ChatItem({navigation}) {
             <Avatar rounded source={{uri: user.photoURL}} size={50} />
             <ListItem.Content>
                 <ListItem.Title>
-                    {user.displayName}
+                    {name}
                 </ListItem.Title>
                 <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail' style={{color: 'gray'}}>
-                    Test Message!!
+                    {lastMsg}
                 </ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>

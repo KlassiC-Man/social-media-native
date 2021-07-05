@@ -13,6 +13,7 @@ import Marketplace from './screens/Marketplace';
 import AddItem from './screens/AddItem';
 import SellItemScreen from './screens/SellItemScreen';
 import Chat from './screens/Chat';
+import AddNewChat from './screens/AddNewChat';
 
 
 const Stack = createStackNavigator();
@@ -31,6 +32,7 @@ export default function App() {
         <Stack.Screen name='AddItem' component={AddItem} />
         <Stack.Screen name='SellItemScreen' component={SellItemScreen} />
         <Stack.Screen name='Chat' component={Chat} />
+        <Stack.Screen name='AddNewChat' component={AddNewChat} />
       </Stack.Navigator>
     </NavigationContainer>
   );
