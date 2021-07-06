@@ -5,16 +5,18 @@ import { Avatar, ListItem } from 'react-native-elements';
 import { UserInterfaceIdiom } from 'expo-constants';
 import * as firebase from 'firebase';
 
-function ChatItem({navigation, name, lastMsg}) {
+function ChatItem({navigation, name, lastMsg, chatProfilePic, id}) {
     const user = firebase.auth().currentUser;
 
     function enterTheChat() {
-        console.log('Click Success!');//Have to modify this function for entering the chat and seeing the messages!!
+        navigation.navigate('ChatScreen', {
+            id: id,
+        })
     };
 
     return (
         <ListItem bottomDivider onPress={enterTheChat}>
-            <Avatar rounded source={{uri: user.photoURL}} size={50} />
+            <Avatar rounded source={{uri: chatProfilePic}} size={50} />
             <ListItem.Content>
                 <ListItem.Title>
                     {name}

@@ -4,9 +4,13 @@ import {AntDesign} from '@expo/vector-icons';
 import ChatItem from '../components/ChatItem';
 import { db } from '../firebase';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { UserInterfaceIdiom } from 'expo-constants';
+import firebase from 'firebase';
 
 function Chat({navigation}) {
     const [chats, setChats] = useState([]);
+
+    const user = firebase.auth().currentUser;
 
     useEffect(() => {
         const chats = [];
@@ -40,8 +44,9 @@ function Chat({navigation}) {
     return (
         <ScrollView>
             {chats.map(chat => (
-                <ChatItem name='Test Chat' lastMsg='Hello, THis is a test!' />
-            ))}
+                chat.chatter1 === user.email || chat.chatter0 === user.email ?
+                <ChatItem id={chat.id} navigation={navigation} name={chat.chatterName1 === user.displayName ? chat.chatterName0 : chat.chatterName1} chatProfilePic={chat.chatter1 === user.email ? chat.chatterProfile0 : chat.chatterProfile1} lastMsg='Hello, THis is a test!' />
+            :null))}
         </ScrollView>
     )
 };

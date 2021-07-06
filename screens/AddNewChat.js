@@ -23,10 +23,10 @@ function AddNewChat() {
 
     return (
         <View>
-            <TextInput placeholder='Username Of The User' style={{borderWidth: 1, margin: 5, height: 50, borderRadius: 10}} value={input} onChangeText={text => setInput(text)} />
+            <TextInput placeholder='Name Of The User' style={{borderWidth: 1, margin: 5, height: 50, borderRadius: 10}} value={input} onChangeText={text => setInput(text)} />
             {users.map(user => (
-                input === user.name ? 
-                <SearchUser name={input} />
+                user.name === input ? 
+                <SearchUser name={input} profilePic={user.profilePic} key={user.id} id={user.id} email={user.email} />
             : null))}
         </View>
     )
