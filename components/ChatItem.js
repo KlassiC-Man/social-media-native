@@ -11,6 +11,9 @@ function ChatItem({navigation, name, lastMsg, chatProfilePic, id}) {
     function enterTheChat() {
         navigation.navigate('ChatScreen', {
             id: id,
+            chatProfilePic: chatProfilePic,
+            name: name,
+            lastMsg: lastMsg
         })
     };
 
