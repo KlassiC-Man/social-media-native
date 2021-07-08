@@ -15,6 +15,7 @@ import SellItemScreen from './screens/SellItemScreen';
 import Chat from './screens/Chat';
 import AddNewChat from './screens/AddNewChat';
 import ChatScreen from './screens/ChatScreen';
+import chatProfileScreen from './screens/chatProfileScreen';
 
 
 const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ export default function App() {
         <Stack.Screen name='Chat' component={Chat} />
         <Stack.Screen name='AddNewChat' component={AddNewChat} />
         <Stack.Screen name='ChatScreen' component={ChatScreen} />
+        <Stack.Screen name='ChatProfileScreen' component={chatProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

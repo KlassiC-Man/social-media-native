@@ -12,7 +12,7 @@ function Chat({navigation}) {
 
     const user = firebase.auth().currentUser;
 
-    useEffect(() => {
+    /*useEffect(() => {
         const chats = [];
         db.collection('chats').get().then(snapshot => {
             snapshot.docs.forEach(chat => {
@@ -23,6 +23,15 @@ function Chat({navigation}) {
             })
             setChats(chats);
         })
+    }, [])*/
+
+    useEffect(() => {
+        const unsubscribe = db.collection('chats').onSnapshot(snapshot => setChats(
+            snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data()
+            }))
+        ))
     }, [])
 
     useLayoutEffect(() => {
@@ -43,9 +52,9 @@ function Chat({navigation}) {
 
     return (
         <ScrollView>
-            {chats.map(chat => (
-                chat.chatter1 === user.email || chat.chatter0 === user.email ?
-                <ChatItem id={chat.id} navigation={navigation} name={chat.chatterName1 === user.displayName ? chat.chatterName0 : chat.chatterName1} chatProfilePic={chat.chatter1 === user.email ? chat.chatterProfile0 : chat.chatterProfile1} lastMsg='Hello, THis is a test!' />
+            {chats.map(({id, data}) => (
+                data.chatter1 === user.email || data.chatter0 === user.email ?
+                <ChatItem id={id} navigation={navigation} name={data.chatterName1 === user.displayName ? data.chatterName0 : data.chatterName1} chatProfilePic={data.chatter1 === user.email ? data.chatterProfile0 : data.chatterProfile1} lastMsg='Hello, THis is a test!' />
             :null))}
         </ScrollView>
     )

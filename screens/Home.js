@@ -31,16 +31,12 @@ function Home({navigation}) {
 
     // useEffect for going through the posts and clicking snapshots!
     useEffect(() => {
-        const posts = [];
-        db.collection('posts').orderBy('timestamp', 'desc').get().then(snapshot => {
-            snapshot.docs.forEach(post => {
-                let currentId = post.id
-                let obj = { ...post.data(), ['id']: currentId }
-                posts.push(obj);
-                posts.push(post.data())
-            })
-            setPosts(posts);
-        })
+        const unsubscribe = db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => setPosts(
+            snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data()
+            }))
+        ))
     }, [])
 
     function navigateToMarket() {
@@ -108,11 +104,11 @@ function Home({navigation}) {
                 <Avatar rounded size={60} source={{uri: user.photoURL}}/>
             </View>
             <View>
-                {posts.map(post => (
-                    <Post key={post.id} id={post.id} user={post.user} profilePic={post.profilePic} message={post.message} image={post.image} />
+                {posts.map(({id, data}) => (
+                    <Post key={id} id={data.id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
                 ))}
-                <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image={user.photoURL} timestamp='18 June 2021 at 12:25:06 UTC+5:30' />
-                <Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image='https://i.pinimg.com/originals/28/e5/cd/28e5cdc21f8ff8aae148932e4e6afafe.png' timestamp='18 June 2021 at 12:25:06 UTC+5:30' />
+                {/*<Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image={user.photoURL} timestamp='18 June 2021 at 12:25:06 UTC+5:30' />*/}
+                {/*<Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image='https://i.pinimg.com/originals/28/e5/cd/28e5cdc21f8ff8aae148932e4e6afafe.png' timestamp='18 June 2021 at 12:25:06 UTC+5:30' />*/}
             </View>
         </ScrollView>
     )

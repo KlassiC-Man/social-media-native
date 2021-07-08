@@ -4,7 +4,7 @@
     "slug": "sm",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/main.jpeg",
     "splash": {
       "image": "./assets/main.jpeg",
       "resizeMode": "contain",

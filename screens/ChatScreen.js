@@ -16,14 +16,22 @@ function ChatScreen({route, navigation}) {
 
     const {id, name, lastMsg, chatProfilePic} = route.params;
 
+    function showTheProfile() {
+      navigation.navigate('ChatProfileScreen', {
+        chatProfilePic: chatProfilePic,
+      })
+    };
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackTitle: 'Chats',
             title: name,
             headerTitle: (() => (
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity style={{flexDirection: 'row' ,alignItems: 'center'}} onPress={showTheProfile}>
                     <Avatar rounded source={{uri: chatProfilePic}} size={40} />
                     <Text style={{fontSize: 17, paddingLeft: 10}}>{name}</Text>
+                  </TouchableOpacity>
                 </View>
             ))
         })
@@ -49,6 +57,9 @@ function ChatScreen({route, navigation}) {
         setInput('');
     };
 
+    // This function shows the options for onLongPress of ur own msgs!!!!
+    
+
     return (
         <SafeAreaView style={styles.container}>
         <View style={styles.container__main} behavior='height'>
@@ -56,10 +67,12 @@ function ChatScreen({route, navigation}) {
             <ScrollView contentContainerStyle={{paddingTop:10}}>
                 {chatMsgs.map(({id, data}) => (
                 data.email === user.email ? (
+                  <TouchableOpacity >
                     <View key={id} style={styles.recieved}>
                         <Avatar source={{uri: data.photoURL}} rounded size={25} position='absolute' bottom={30} right={-5} />
                         <Text style={styles.recievedMsg}>{data.message}</Text>
                     </View>
+                  </TouchableOpacity>
                 ):(
                     <View key={id} style={styles.sent}>
                         <Avatar source={{uri: data.photoURL}} rounded size={25} position='absolute' bottom={60} right={-5} />
@@ -72,7 +85,7 @@ function ChatScreen({route, navigation}) {
             <View style={styles.mainArea}>
                 <TextInput placeholder='Type The Message' placeholderTextColor='grey' style={styles.textInput} value={input} onChangeText={(text) => setInput(text)} />
                 <TouchableOpacity onPress={sendMsg} disabled={!input}>
-                    <Feather name='send' size={24} color='cadetblue' />
+                    <Feather name='send' size={32} color='#3c6e71' />
                 </TouchableOpacity>
             </View>
             </>
@@ -91,7 +104,7 @@ const styles = StyleSheet.create({
   },
   recieved: {
     padding: 15,
-    backgroundColor: 'wheat',
+    backgroundColor: '#3c6e71',
     alignSelf: "flex-end",
     borderRadius: 10,
     marginRight: 15,
@@ -100,13 +113,13 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   recievedMsg: {
-    color: 'black',
+    color: '#fff',
     fontWeight: '500',
     marginLeft: 10,
   },
   sent: {
     padding: 15,
-    backgroundColor: 'cadetblue',
+    backgroundColor: '#2c7da0',
     alignSelf: 'flex-start',
     borderRadius: 20,
     margin: 15,
@@ -126,7 +139,7 @@ const styles = StyleSheet.create({
     color: 'wheat',
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#48cae4',
     flex: 1,
   },
   container__main: {
@@ -141,14 +154,14 @@ const styles = StyleSheet.create({
   textInput: {
     color: 'black',
     bottom: 0,
-    height: 40,
+    height: 45,
     flex: 1,
     marginRight: 15,
-    marginLeft: 13,
+    marginLeft: 0,
     borderColor: "transparent",
-    backgroundColor: '#ECECEC',
+    backgroundColor: '#fff',
     borderWidth: 1,
-    padding: 10,
-    borderRadius: 30,
+    padding: 8,
+    borderRadius: 25,
   },
 });
