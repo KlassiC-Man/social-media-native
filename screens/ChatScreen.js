@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
 import { ScreenStackHeaderLeftView } from 'react-native-screens';
 import { Ionicons, Feather } from '@expo/vector-icons';
@@ -19,9 +19,10 @@ function ChatScreen({route, navigation}) {
     function showTheProfile() {
       navigation.navigate('ChatProfileScreen', {
         chatProfilePic: chatProfilePic,
-      })
+      });
     };
 
+    // this useLayoutEffect changes the layout of the screens navigation as soon as the screen is rendered
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackTitle: 'Chats',
@@ -30,34 +31,36 @@ function ChatScreen({route, navigation}) {
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <TouchableOpacity style={{flexDirection: 'row' ,alignItems: 'center'}} onPress={showTheProfile}>
                     <Avatar rounded source={{uri: chatProfilePic}} size={40} />
-                    <Text style={{fontSize: 17, paddingLeft: 10}}>{name}</Text>
                   </TouchableOpacity>
+                  <Text style={{fontSize: 17, paddingLeft: 10}}>{name}</Text>
                 </View>
             ))
         })
     }, [navigation])
 
+    // This useEffect gets all the messages for the chats you are in!!!
     useEffect(() => {
         const unsubscribe = db.collection('chats').doc(id).collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot => setChatMsgs(
             snapshot.docs.map(doc => ({
                 id: doc.id,
                 data: doc.data()
             }))
-        ))
+        ));
+        return unsubscribe;
     }, [route])
 
+    // Function for sending the message you have typed
     function sendMsg() {
-        db.collection('chats').doc(id).collection('messages').add({
+        db.collection('chats').doc(id).collection('messages').add({// Adds the message to the db
             timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
             message: input,
             displayName: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
         })
+        // After the message is sent, set The message input field to '' or nothing!
         setInput('');
     };
-
-    // This function shows the options for onLongPress of ur own msgs!!!!
     
 
     return (

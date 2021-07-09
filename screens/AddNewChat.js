@@ -8,7 +8,7 @@ function AddNewChat() {
     const [input, setInput] = React.useState('');
     const [users, setUsers] = React.useState([]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const searchItems = [];
         db.collection('users').get().then(snapshot => {
             snapshot.docs.forEach(user => {
@@ -19,14 +19,23 @@ function AddNewChat() {
             })
             setUsers(searchItems);
         })
+    }, [input])*/
+
+    useEffect(() => {
+        const unsubscribe = db.collection('users').onSnapshot(snapshot => setUsers(
+            snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data(),
+            }))
+        ))
     }, [input])
 
     return (
         <View>
             <TextInput placeholder='Name Of The User' style={{borderWidth: 1, margin: 5, height: 50, borderRadius: 10}} value={input} onChangeText={text => setInput(text)} />
-            {users.map(user => (
-                user.name === input ? 
-                <SearchUser name={input} profilePic={user.profilePic} key={user.id} id={user.id} email={user.email} />
+            {users.map(({id, data}) => (
+                data.name === input ? 
+                <SearchUser name={input} profilePic={data.profilePic} key={id} id={id} email={data.email} />
             : null))}
         </View>
     )

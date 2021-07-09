@@ -10,6 +10,7 @@ import * as firebase from 'firebase';
 import Post from '../components/Post';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 
 function Home({navigation}) {
@@ -69,6 +70,14 @@ function Home({navigation}) {
 
     return(
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor='#ddd' title='Pull to Refresh' />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10, marginTop: 50}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <TouchableOpacity style={{margin: 10, marginTop: 0}}>
+                    <Avatar rounded source={{uri: '../assets/main.jpeg'}} size={50} />
+                </TouchableOpacity>
+                <TouchableOpacity style={{margin: 10, marginTop: 0}}>
+                    <Ionicons name='chatbox' color='gold' size={40} />
+                </TouchableOpacity>
+            </View>
             <View style={{flexDirection: 'row', borderBottomWidth: 1}}>
                 <TouchableOpacity >
                     <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
