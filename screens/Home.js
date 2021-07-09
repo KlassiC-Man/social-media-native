@@ -11,9 +11,12 @@ import Post from '../components/Post';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-
+import {useFonts} from 'expo-font';
+import {AppLoading} from 'expo';
 
 function Home({navigation}) {
+    
+
     const [input, setInput] = useState('');
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -71,10 +74,11 @@ function Home({navigation}) {
     return(
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor='#ddd' title='Pull to Refresh' />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10, marginTop: 50}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <TouchableOpacity style={{margin: 10, marginTop: 0}}>
+                {/*<TouchableOpacity style={{margin: 10, marginTop: 0}}>
                     <Avatar rounded source={{uri: '../assets/main.jpeg'}} size={50} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{margin: 10, marginTop: 0}}>
+                </TouchableOpacity>*/}
+                <Text style={{fontFamily: 'serif', fontSize: 30, paddingLeft: 20, color: '#2a9d8f'}}>Socialise</Text>
+                <TouchableOpacity style={{margin: 10, marginTop: 0}} onPress={navigateToChat}>
                     <Ionicons name='chatbox' color='gold' size={40} />
                 </TouchableOpacity>
             </View>
