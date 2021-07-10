@@ -14,7 +14,7 @@ function UserProfile({navigation}) {
     //use layout effect for making the title of the naviagtion pane change to 'Profile'
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: 'Profile'
+            title: 'Profile',
         })
     }, [navigation])
 

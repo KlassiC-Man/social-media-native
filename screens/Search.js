@@ -4,19 +4,21 @@ import {db, auth} from '../firebase';
 import { AntDesign } from '@expo/vector-icons';
 import SearchItem from '../components/SearchItem';
 import * as firebase from 'firebase';
+import SearchedUser from '../components/SearchedUser';
 
 function Search({navigation}) {
     const [input, setInput] = React.useState('');
     const [users, setUsers] = React.useState([]);
 
-    // the current user
-    const test = firebase.auth().currentUser;
-
-    /*useEffect(() => {
-	db.collection('users').onSnapshot((snapshot) => 
-		setUsers(snapshot.docs.map(doc => ({id: doc.id, data: doc.data()})))
-	);
-    }, [])*/
+    useEffect(() => {
+        const unsubscribe = db.collection('users').onSnapshot(snapshot => setUsers(
+            snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data(),
+            }))
+        ))
+        return unsubscribe;
+    }, [input])
 
     function search() {
 	let whatWeNeed = db.collection('users').doc(input);
@@ -32,9 +34,10 @@ function Search({navigation}) {
                     		<AntDesign name='search1' size={35} style={{paddingLeft: 3}} />
                 	</TouchableOpacity>
 	    	</View>
-                {users.map(user => (
-                    <SearchItem key={user.id} name={test.name} image={test.profilePic} />
-                ))}
+                {users.map(({id, data}) => (
+                    data.name.toLowerCase() === input.toLowerCase() ? 
+                    <SearchedUser profilePic={data.profilePic} id={id} name={data.name} />
+                : null))}
             </View>
         </View>
     )

@@ -12,6 +12,8 @@ import { Entypo } from '@expo/vector-icons';
 import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 import {GifSearch} from 'react-native-gif-search';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import { Octicons } from '@expo/vector-icons';
+//import * as Location from 'expo-location';
 
 function PostScreen({navigation}) {
     const [message, setMessage] = useState('');
@@ -22,6 +24,7 @@ function PostScreen({navigation}) {
     const [gifs, setGifs] = useState([]);
     const [term, updateTerm] = useState('');
     const [showGifsSelector, setShowGifsSelector] = useState(false);
+    const [location, setLocation] = useState(null);
     /*const [video, setVideo] = useState('');
     const [status, setStatus] = useState({});*/
 
@@ -154,6 +157,31 @@ function PostScreen({navigation}) {
         setImage(item);
     };
 
+    /*useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+            })();
+        }, []);*/
+
+    /*let text = '';
+    
+    async function getLocation() {
+        let {status} = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            return;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        text = JSON.stringify(location);
+    }*/
+
     return (
         <ScrollView style={{flexDirection: 'column', display: 'flex'}} contentContainerStyle={{justifyContent: 'flex-start'}}>
             <View style={{backgroundColor: 'black', flexDirection: 'row', width: '100%', height: 50, justifyContent: 'space-evenly'}}>
@@ -168,6 +196,12 @@ function PostScreen({navigation}) {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={addPhotoWithLink}>
                     <Entypo name='link' size={40} color='#AEE8F5' />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Entypo name='location-pin' color='#AEE8F5' size={40} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={getLocation}>
+                    <Octicons name='mention' color='#AEE8F5' size={37} />
                 </TouchableOpacity>
             </View>
             {dropdownOn === true ? <View style={{flexDirection: 'row'}}>

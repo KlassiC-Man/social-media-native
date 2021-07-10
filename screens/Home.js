@@ -13,15 +13,34 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import {useFonts} from 'expo-font';
 import {AppLoading} from 'expo';
+import * as Contacts from 'expo-contacts';
 
 function Home({navigation}) {
-    
-
     const [input, setInput] = useState('');
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [contacts, setContacts] = useState([]);
 
     const user = firebase.auth().currentUser;
+
+    //useEffect for getting contacts information!
+    useEffect(() => {
+        (async () => {
+            const {status} = await Contacts.requestPermissionsAsync();
+            if (status === 'granted') {
+                const {data} = await Contacts.getContactsAsync({
+                    fields: [Contact.Fields.Emails],
+                });
+                if (data.length > 0) {
+                    const contact = data[0];
+                    console.log(contact);
+                    setContacts(data);
+                } else {
+                    console.log('IDK!');
+                }
+            }
+        })
+    }, [])
 
     // Wait function for the refresh state!
     function wait(timeout) {
@@ -79,7 +98,7 @@ function Home({navigation}) {
                 </TouchableOpacity>*/}
                 <Text style={{fontFamily: 'serif', fontSize: 30, paddingLeft: 20, color: '#2a9d8f'}}>Socialise</Text>
                 <TouchableOpacity style={{margin: 10, marginTop: 0}} onPress={navigateToChat}>
-                    <Ionicons name='chatbox' color='gold' size={40} />
+                    <Ionicons name='chatbox' color='cadetblue' size={40} />
                 </TouchableOpacity>
             </View>
             <View style={{flexDirection: 'row', borderBottomWidth: 1}}>
