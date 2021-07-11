@@ -5,11 +5,18 @@ import { ListItem } from 'react-native-elements/dist/list/ListItem';
 import firebase from 'firebase';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function SearchedUser({id, name, profilePic}) {
+function SearchedUser({id, name, profilePic, navigation, followers, following, email}) {
     const user = firebase.auth().currentUser;
 
     function goIntoUsersProfile() {
-
+        navigation.navigate('Profile', {
+            id: id,
+            name: name,
+            profilePic: profilePic,
+            followers: followers,
+            following: following,
+            email: email
+        });
     };
 
     return (

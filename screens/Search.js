@@ -36,7 +36,7 @@ function Search({navigation}) {
 	    	</View>
                 {users.map(({id, data}) => (
                     data.name.toLowerCase() === input.toLowerCase() ? 
-                    <SearchedUser profilePic={data.profilePic} id={id} name={data.name} />
+                    <SearchedUser email={data.email} profilePic={data.profilePic} id={id} name={data.name} navigation={navigation} followers={data.follower} following={data.following} />
                 : null))}
             </View>
         </View>

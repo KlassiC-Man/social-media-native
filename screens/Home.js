@@ -101,7 +101,7 @@ function Home({navigation}) {
                     <Ionicons name='chatbox' color='cadetblue' size={40} />
                 </TouchableOpacity>
             </View>
-            <View style={{flexDirection: 'row', borderBottomWidth: 1}}>
+            <View style={{flexDirection: 'row', borderBottomWidth: 1,}}>
                 <TouchableOpacity >
                     <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
                 </TouchableOpacity>
