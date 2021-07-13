@@ -90,20 +90,27 @@ function Home({navigation}) {
         navigation.navigate('Chat')
     };
 
+    function navigateToMenu() {
+        navigation.navigate('Menu');
+    }
+
     return(
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor='#ddd' title='Pull to Refresh' />} style={{borderBottomWidth: 10, borderColor: 'lightgray', height: 75, borderRadius: 10, marginTop: 50}}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row',}}>
                 {/*<TouchableOpacity style={{margin: 10, marginTop: 0}}>
                     <Avatar rounded source={{uri: '../assets/main.jpeg'}} size={50} />
                 </TouchableOpacity>*/}
                 <Text style={{fontFamily: 'serif', fontSize: 30, paddingLeft: 20, color: '#2a9d8f'}}>Socialise</Text>
-                <TouchableOpacity style={{margin: 10, marginTop: 0}} onPress={navigateToChat}>
-                    <Ionicons name='chatbox' color='cadetblue' size={40} />
+                <TouchableOpacity style={{margin: 10, marginTop: 0, marginLeft: 130}} onPress={navigateToChat}>
+                    <Ionicons name='chatbox' color='black' size={40} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={goToSearchWindow} >
+                    <AntDesign name='search1' size={30} />
                 </TouchableOpacity>
             </View>
             <View style={{flexDirection: 'row', borderBottomWidth: 1,}}>
                 <TouchableOpacity >
-                    <Entypo name='home' size={34} color='black' style={styles.headerLogo} />
+                    <Entypo name='home' size={34} color='cadetblue' style={styles.headerLogo} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={navigateToMarket}>
                     <Entypo name='shop' size={34} color='black' style={styles.headerLogo} />
@@ -117,8 +124,8 @@ function Home({navigation}) {
                 <TouchableOpacity>
                     <Feather name="bell" size={34} color="black" style={styles.headerLogo} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={goToSearchWindow} >
-                    <AntDesign name='search1' size={30} style={styles.headerLogo} />
+                <TouchableOpacity onPress={navigateToMenu}>
+                    <Entypo name='menu' size={34} color='black' style={styles.headerLogo} />
                 </TouchableOpacity>
             </View>
             <View style={{padding: 10, flexDirection: 'row'}}>

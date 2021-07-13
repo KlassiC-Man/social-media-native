@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     color: 'wheat',
   },
   container: {
-    backgroundColor: '#48cae4',
+    backgroundColor: '#fff',
     flex: 1,
   },
   container__main: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginLeft: 0,
     borderColor: "transparent",
-    backgroundColor: '#fff',
+    backgroundColor: 'lightgray',
     borderWidth: 1,
     padding: 8,
     borderRadius: 25,

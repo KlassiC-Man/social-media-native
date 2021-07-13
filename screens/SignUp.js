@@ -6,12 +6,14 @@ import {auth, db} from '../firebase';
 import * as ImagePicker from 'expo-image-picker';
 
 function SignUp({navigation}) {
+    let randomPic = Math.floor(1000 + Math.random() * 9000);
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [imageUrl, setImageUrl] = useState('../assets/defaultPic.jpeg');
+    const [imageUrl, setImageUrl] = useState(`https://ui-avatars.com/api/?name=${name}`);
     const [bio, setBio] = useState('');
-    const [photo, setPhoto] = useState('../assets/defaultPic.jpeg');
+    const [photo, setPhoto] = useState(`https://ui-avatars.com/api/?name=${name}`);
 
     useEffect(() => {
         (async () => {
@@ -84,7 +86,11 @@ function SignUp({navigation}) {
             {/*<TextInput type='text' placeholder='Image URL for Profile (Optional) .png or .jpeg links' onChangeText={text => setImageUrl(text)} style={styles.input} value={imageUrl} />*/}
             {/*<Input type='text' placeholder='Bio' value={bio} onChangeText={text => setBio(text)} style={{marginTop: 20, paddingTop: 10, height: 20}} multiline={true} />*/}
             {/*<Button title='Choose Profile Picture' onPress={profilePicChooser} style={styles.button} />*/}
-            <Button title='Sign Up!' onPress={signUp} raised style={styles.button} />
+            <TouchableOpacity onPress={signUp} style={{alignSelf: 'center'}}>
+                <View style={{borderWidth: 0.2, height: 50, width: 130, backgroundColor: 'cadetblue'}} raised={true}>
+                    <Text style={{color: 'white', textAlign: 'center', fontSize: 18, marginTop: 5}}>Sign Up</Text>
+                </View>
+            </TouchableOpacity>
             <TouchableOpacity>
                 {/*<Text>Create An Organisation (Not functional As Of Now!)</Text>*/}
             </TouchableOpacity>
