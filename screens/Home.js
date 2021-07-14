@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {useFonts} from 'expo-font';
 import {AppLoading} from 'expo';
 import * as Contacts from 'expo-contacts';
+import * as Sharing from 'expo-sharing';
 
 function Home({navigation}) {
     const [input, setInput] = useState('');

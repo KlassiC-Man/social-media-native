@@ -3,7 +3,9 @@ import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
 import {db, storage, auth} from '../firebase';
 import { AntDesign } from '@expo/vector-icons';
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons, Entypo } from '@expo/vector-icons';
+import * as Sharing from 'expo-sharing';
+import { Share } from 'react-native';
 
 function Post({user, email, message, image, profilePic, timestamp, id}) {
     const [likes, setLikes] = useState();
@@ -15,6 +17,15 @@ function Post({user, email, message, image, profilePic, timestamp, id}) {
             'likes': data.likes + 1,
         })
     }
+
+    let openShareDialogAsync = async () => {
+        if (!(await Sharing.isAvailableAsync())) {
+          alert(`Uh oh, sharing isn't available on your platform`);
+          return;
+        }
+    
+        await Sharing.shareAsync(image.localUri);
+      }; 
 
     return (
         <View style={{borderWidth: 0.2, margin: 10, flexDirection: 'column'}}>
@@ -31,9 +42,11 @@ function Post({user, email, message, image, profilePic, timestamp, id}) {
                 <TouchableOpacity onPress={addLike}>
                     <AntDesign name='like2' size={35} color='cadetblue' />
                 </TouchableOpacity>
-                <Text>{likes}</Text>
                 <TouchableOpacity>
                     <EvilIcons name="comment" size={43} color="cadetblue" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={openShareDialogAsync}>
+                    <Entypo name="share" size={35} color="cadetblue" />
                 </TouchableOpacity>
             </View>
         </View>
