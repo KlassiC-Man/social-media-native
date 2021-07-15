@@ -12,19 +12,6 @@ function Chat({navigation}) {
 
     const user = firebase.auth().currentUser;
 
-    /*useEffect(() => {
-        const chats = [];
-        db.collection('chats').get().then(snapshot => {
-            snapshot.docs.forEach(chat => {
-                let currentId = chat.id
-                let obj = { ...chat.data(), ['id']: currentId }
-                chats.push(obj);
-                chats.push(chat.data())
-            })
-            setChats(chats);
-        })
-    }, [])*/
-
     useEffect(() => {
         const unsubscribe = db.collection('chats').onSnapshot(snapshot => setChats(
             snapshot.docs.map(doc => ({
@@ -34,12 +21,19 @@ function Chat({navigation}) {
         ))
     }, [])
 
+    function addGroup() {
+        navigation.navigate('AddNewGroup');
+    };
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <View style={{paddingRight: 10}}>
-                    <TouchableOpacity onPress={addChat}>
+                <View style={{paddingRight: 10, flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={addChat} style={{marginRight: 20}}>
                         <AntDesign name='adduser' size={35} color='black' />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={addGroup}>
+                        <AntDesign name="addusergroup" size={35} color="black" />
                     </TouchableOpacity>
                 </View>
             )

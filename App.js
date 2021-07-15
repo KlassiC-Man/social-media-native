@@ -19,6 +19,7 @@ import chatProfileScreen from './screens/chatProfileScreen';
 import Profile from './screens/Profile';
 import Menu from './screens/Menu';
 import Settings from './screens/Settings';
+import AddNewGroup from './screens/AddNewGroup';
 
 
 const Stack = createStackNavigator();
@@ -27,9 +28,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name='SignUp' component={SignUp} />
-        <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Post' component={PostScreen} />
         <Stack.Screen name='UserProfile' component={UserProfile} />
         <Stack.Screen name='Search' component={Search} />
@@ -43,6 +44,7 @@ export default function App() {
         <Stack.Screen name='Profile' component={Profile} />
         <Stack.Screen name='Menu' component={Menu} />
         <Stack.Screen name='Settings' component={Settings} />
+        <Stack.Screen name='AddNewGroup' component={AddNewGroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );
