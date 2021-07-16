@@ -1,5 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react'
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Image } from 'react-native'
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Platform, Image, Touchable } from 'react-native'
 import {ThemeProvider, Avatar, Button} from 'react-native-elements';
 import { Feather } from '@expo/vector-icons';
 import {auth, db, storage} from '../firebase';
@@ -84,15 +84,6 @@ function PostScreen({navigation}) {
         }
     };
 
-    async function pickVid() {
-      //  let result = await ImagePicker.launchImageLibraryAsync({
-        //    mediaTypes: ImagePicker.MediaTypeOptions.All,
-          //  videoQuality: 1,
-        //})
-        //console.log(result);
-        //setVideo(result.uri);
-    };
-
    
     //function for sending the post not working properly as expected!!!!!
     function sendPost(){
@@ -153,34 +144,9 @@ function PostScreen({navigation}) {
         setImage(urlInput);
     };
 
-    function selectGif(item) {
-        setImage(item);
-    };
-
-    /*useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Permission to access location was denied');
-                return;
-            }
-
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-            })();
-        }, []);*/
-
-    /*let text = '';
-    
-    async function getLocation() {
-        let {status} = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            return;
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
-        text = JSON.stringify(location);
-    }*/
+    function addEvent() {
+        // Have to add some stuff here!!!!!
+    }; 
 
     return (
         <ScrollView style={{flexDirection: 'column', display: 'flex'}} contentContainerStyle={{justifyContent: 'flex-start'}}>
@@ -191,8 +157,8 @@ function PostScreen({navigation}) {
                 <TouchableOpacity style={styles.sidebarIcons} onPress={pickGif}>
                     <MaterialIcons name='gif' size={40} color='#AEE8F5' />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.sidebarIcons} onPress={pickVid}>
-                    <MaterialIcons name='video-library' size={40} color='#AEE8F5' />
+                <TouchableOpacity style={styles.sidebarIcons} onPress={addEvent}>
+                    <MaterialIcons name='event' color='#AEE8F5' size={40} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={addPhotoWithLink}>
                     <Entypo name='link' size={40} color='#AEE8F5' />
@@ -200,7 +166,7 @@ function PostScreen({navigation}) {
                 <TouchableOpacity>
                     <Entypo name='location-pin' color='#AEE8F5' size={40} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={getLocation}>
+                <TouchableOpacity>
                     <Octicons name='mention' color='#AEE8F5' size={37} />
                 </TouchableOpacity>
             </View>

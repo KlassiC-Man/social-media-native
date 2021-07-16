@@ -20,6 +20,7 @@ import Profile from './screens/Profile';
 import Menu from './screens/Menu';
 import Settings from './screens/Settings';
 import AddNewGroup from './screens/AddNewGroup';
+import Events from './screens/Events';
 
 
 const Stack = createStackNavigator();
@@ -45,6 +46,7 @@ export default function App() {
         <Stack.Screen name='Menu' component={Menu} />
         <Stack.Screen name='Settings' component={Settings} />
         <Stack.Screen name='AddNewGroup' component={AddNewGroup} />
+        <Stack.Screen name='Events' component={Events} />
       </Stack.Navigator>
     </NavigationContainer>
   );

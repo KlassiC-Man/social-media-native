@@ -30,6 +30,10 @@ function Menu({navigation}) {
         navigation.navigate('Chat');
     };
 
+    function navigateToEvents() {
+        navigation.navigate('Events');
+    }
+
     return (
         <ScrollView style={{backgroundColor: '#fff'}}>
             <View style={{padding: 10, flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -61,7 +65,7 @@ function Menu({navigation}) {
                     <Icon name='settings' reverse color='green' />
                     <Text style={{textAlign: 'center', fontSize: 20, marginTop: 9}}>Settings</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.widgets}>
+                <TouchableOpacity style={styles.widgets} onPress={navigateToEvents}>
                     <Icon name='event' reverse color='crimson' />
                     <Text style={{textAlign: 'center', fontSize: 20, marginTop: 9}}>Events</Text>
                 </TouchableOpacity>

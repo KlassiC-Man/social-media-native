@@ -11,10 +11,6 @@ import Post from '../components/Post';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import {useFonts} from 'expo-font';
-import {AppLoading} from 'expo';
-import * as Contacts from 'expo-contacts';
-import * as Sharing from 'expo-sharing';
 
 function Home({navigation}) {
     const [input, setInput] = useState('');
@@ -23,25 +19,6 @@ function Home({navigation}) {
     const [contacts, setContacts] = useState([]);
 
     const user = firebase.auth().currentUser;
-
-    //useEffect for getting contacts information!
-    useEffect(() => {
-        (async () => {
-            const {status} = await Contacts.requestPermissionsAsync();
-            if (status === 'granted') {
-                const {data} = await Contacts.getContactsAsync({
-                    fields: [Contact.Fields.Emails],
-                });
-                if (data.length > 0) {
-                    const contact = data[0];
-                    console.log(contact);
-                    setContacts(data);
-                } else {
-                    console.log('IDK!');
-                }
-            }
-        })
-    }, [])
 
     // Wait function for the refresh state!
     function wait(timeout) {
@@ -131,7 +108,7 @@ function Home({navigation}) {
             </View>
             <View style={{padding: 10, flexDirection: 'row'}}>
                 <TouchableOpacity onPress={goToProfile}>
-                    <Avatar rounded source={{uri: user.photoURL}} size={47} />    
+                    {<Avatar rounded source={{uri: user.photoURL}} size={47} />}
                 </TouchableOpacity>
                 <TextInput onFocus={onFocus} value={input} placeholder='  Whats Up?' style={{borderWidth: 1, marginLeft: 10, borderColor: 'lightgray', borderRadius: 25, flex: 1}} />
             </View>
@@ -147,8 +124,6 @@ function Home({navigation}) {
                 {posts.map(({id, data}) => (
                     <Post key={id} id={data.id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
                 ))}
-                {/*<Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image={user.photoURL} timestamp='18 June 2021 at 12:25:06 UTC+5:30' />*/}
-                {/*<Post profilePic={user.photoURL} user={user.displayName} message='Hello, Friends how is it going I am in london!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!' image='https://i.pinimg.com/originals/28/e5/cd/28e5cdc21f8ff8aae148932e4e6afafe.png' timestamp='18 June 2021 at 12:25:06 UTC+5:30' />*/}
             </View>
         </ScrollView>
     )
