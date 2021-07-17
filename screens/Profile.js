@@ -11,6 +11,7 @@ function Profile({route, navigation}) {
     const [follower, setFollower] = React.useState(0)
     const [usersPost, setUsersPost] = React.useState([]);
     const [usersFollowers, setUsersFollowers] = React.useState([]);
+    const [foll, setFoll] = React.useState(false);
 
     const {id, name, profilePic, followers, following, email} = route.params;
 
@@ -29,6 +30,7 @@ function Profile({route, navigation}) {
             title: name
         })
     }, [route])
+
 
     useEffect(() => {
         db.collection('users').doc(id).collection('followers').get().then(snapshot => setFollower(snapshot.size));
@@ -54,6 +56,16 @@ function Profile({route, navigation}) {
         return unsub;
     }, [])
 
+    useLayoutEffect(() => {
+        usersFollowers.map(({id, data}) => {
+            if (data.email === user.email) {
+                setFoll(true);
+            } else {
+                setFoll(false);
+            }
+        })
+    }, [])
+
     function unfollowUser() {
         db.collection('users').doc(id).collection('followers').doc(user.email).delete();
     }
@@ -69,7 +81,7 @@ function Profile({route, navigation}) {
                     <Text style={{color: 'gray'}}>Followers: {follower}</Text>
                 </View>
             </View>    
-            { db.collection('users').doc(id).collection('followers').doc(user.email) ? (
+            { foll === true ? (
                 <View>
                     <TouchableOpacity style={{borderWidth: 0.2, height: 40, width: 240, marginLeft:120, borderRadius: 20, backgroundColor: 'lightgray'}} onPress={unfollowUser}>
                         <Text style={{textAlign: 'center', fontWeight: 'bold' ,fontFamily: 'serif', fontSize: 20, color: 'gray', marginTop: 3}}>Following</Text>

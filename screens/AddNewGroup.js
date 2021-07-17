@@ -10,6 +10,8 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 import { db } from '../firebase';
 import firebase from 'firebase';
 import SearchedUser from '../components/SearchUser';
+import GroupAddingUser from '../components/GroupAddingUser';
+
 
 function AddNewGroup() {
     const user = firebase.auth().currentUser;
@@ -20,6 +22,11 @@ function AddNewGroup() {
     const [photo, setPhoto] = useState('');
     const [searchUser, setSearchUser] = useState('');
     const [users, setUsers] = useState([]);
+    const [user1, setUser1] = useState('');
+    const [user2, setUser2] = useState('');
+    const [user3, setUser3] = useState('');
+    const [user4, setUser4] = useState('');
+    const [user5, setUser5] = useState('');
 
     useEffect(() => {
         const unsub = db.collection('users').onSnapshot(snapshot => setUsers(
@@ -51,8 +58,14 @@ function AddNewGroup() {
     }
 
     async function createGroup() {
-        
+        if (searchUser === '' || name === '' || description === '') {
+            alert('Fill All the above fields!!');
+        } else {
+            // Create the group and add it to the db!
+        }
     };
+
+    function addUserToGrp() {};
 
     return (
         <ScrollView style={{flexDirection: 'column'}} contentContainerStyle={{justifyContent: 'center'}}>
@@ -64,9 +77,14 @@ function AddNewGroup() {
             <View style={{flexDirection: 'column', justifyContent: 'center', margin: 10, marginTop: 20}}>
                 <TextInput value={name} placeholder='Name of the Group' onChangeText={text => setName(text)} style={{borderWidth: 1,  borderRadius: 20, height: 50}} />
                 <TextInput value={searchUser} placeholder='Search for Participants' onChangeText={text => setSearchUser(text)} style={{borderWidth:1, borderRadius: 20,marginTop: 10, height: 50}} />
-                {users.map(({id, doc}) => (
-                    <SearchedUser key={id} id={id} name={doc.email} />
-                ))}
+                {users.map(({id, data}) => (
+                    data.name === searchUser ? 
+                        <ScrollView>
+                            <TouchableOpacity onPress={addUserToGrp}>
+                                <GroupAddingUser key={id} id={id} name={data.name} email={data.email} profilePic={data.profilePic} />
+                            </TouchableOpacity>
+                        </ScrollView>
+                    : null))}
                 <TextInput value={description} placeholder=' Description' onChangeText={text => setDescription(text)} multiline style={{textAlignVertical: 'top',borderWidth: 1, borderRadius: 20, height: 100,  marginTop: 10}} />
                 <TouchableOpacity onPress={createGroup}>
                     <View style={{height: 50, borderWidth: 1, width: 130, marginTop: 50, alignSelf: 'center', borderRadius: 10}}>

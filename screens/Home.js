@@ -17,6 +17,8 @@ function Home({navigation}) {
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     const [contacts, setContacts] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [userFolls, setUserFolls] = useState([]);
 
     const user = firebase.auth().currentUser;
 
@@ -36,6 +38,15 @@ function Home({navigation}) {
             snapshot.docs.map(doc => ({
                 id: doc.id,
                 data: doc.data()
+            }))
+        ))
+    }, [])
+
+    useEffect(() => {
+        const unsub = db.collection('users').onSnapshot(snapshot => setUsers(
+            snapshot.docs.map(doc => ({
+                userId: doc.id,
+                userData: doc.data(),
             }))
         ))
     }, [])
@@ -122,7 +133,22 @@ function Home({navigation}) {
             </View>
             <View>
                 {posts.map(({id, data}) => (
-                    <Post key={id} id={data.id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
+                    users.map(({userId, userData}) => {
+                        db.collection('users').doc(userId).collection('followers').onSnapshot(snapshot => setUserFolls(
+                            snapshot.docs.map(doc => ({
+                                follId: doc.id,
+                                follData: doc.data(),
+                            }))
+                        )).then(() => {
+                            userFolls.map(({follId, follData}) => {
+                                return follData;
+                            }).then((follData) => ( 
+                                follData.email === user.email ? 
+                                    <Post key={id} id={id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
+                            :null))
+                            }
+                        )
+                    })
                 ))}
             </View>
         </ScrollView>

@@ -13,6 +13,8 @@ import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 import {GifSearch} from 'react-native-gif-search';
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import { Octicons } from '@expo/vector-icons';
+import { setIsEnabledAsync } from 'expo-av/build/Audio';
+//import DateTimePickerModal from "react-native-modal-datetime-picker";
 //import * as Location from 'expo-location';
 
 function PostScreen({navigation}) {
@@ -25,6 +27,9 @@ function PostScreen({navigation}) {
     const [term, updateTerm] = useState('');
     const [showGifsSelector, setShowGifsSelector] = useState(false);
     const [location, setLocation] = useState(null);
+    const [eventAdder, setEventAdder] = useState(false);
+    const [eventName, setEventName] = useState('');
+    const [eventDate, setEventDate] = useState(new Date());
     /*const [video, setVideo] = useState('');
     const [status, setStatus] = useState({});*/
 
@@ -145,7 +150,7 @@ function PostScreen({navigation}) {
     };
 
     function addEvent() {
-        // Have to add some stuff here!!!!!
+        setEventAdder(true);
     }; 
 
     return (
@@ -193,6 +198,11 @@ function PostScreen({navigation}) {
                     onError={(error) => {console.log(error)}}
                 />
             </ScrollView>: null}
+            {eventAdder === true ? (
+                <View>
+                    <TextInput placeholder='Event Name' style={{borderWidth: 0.5, height: 40, margin: 5, borderRadius: 5}} value={eventName} onChangeText={text => setEventName(text)} />
+                </View>
+            ) : null}
             <View style={{ flexDirection: 'row', borderColor: 'black', margin: 5, }}>
                 <Avatar rounded size={50} source={{uri: user.photoURL}} />
                 <Text style={{paddingTop: 4, marginLeft: 2, fontSize: 16}}>{user.displayName}</Text>
