@@ -132,7 +132,7 @@ function Home({navigation}) {
                 <Avatar rounded size={60} source={{uri: user.photoURL}}/>
             </View>
             <View>
-                {posts.map(({id, data}) => (
+                {/*posts.map(({id, data}) => (
                     users.map(({userId, userData}) => {
                         db.collection('users').doc(userId).collection('followers').onSnapshot(snapshot => setUserFolls(
                             snapshot.docs.map(doc => ({
@@ -142,12 +142,26 @@ function Home({navigation}) {
                         )).then(() => {
                             userFolls.map(({follId, follData}) => {
                                 return follData;
-                            }).then((follData) => ( 
+                            }).then((follData) => (
                                 follData.email === user.email ? 
                                     <Post key={id} id={id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
                             :null))
                             }
                         )
+                    })
+                ))*/}
+                {posts.map(({id, data}) => (
+                    users.map(({userId, userData}) => {
+                        db.collection('users').doc(userId).collection('followers').onSnapshot(snapshot => setUserFolls(
+                            snapshot.docs.map(doc => ({
+                                follId: doc.id,
+                                follData: doc.data
+                            }))
+                        ))
+                        userFolls.map(({follId, follData}) => {
+                            follData.email === user.email ? 
+                                <Post key={id} id={id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
+                        :null})
                     })
                 ))}
             </View>
