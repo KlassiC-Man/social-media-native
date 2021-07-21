@@ -21,6 +21,7 @@ import Menu from './screens/Menu';
 import Settings from './screens/Settings';
 import AddNewGroup from './screens/AddNewGroup';
 import Events from './screens/Events';
+import FindUsers from './screens/FindUsers';
 
 
 const Stack = createStackNavigator();
@@ -47,6 +48,7 @@ export default function App() {
         <Stack.Screen name='Settings' component={Settings} />
         <Stack.Screen name='AddNewGroup' component={AddNewGroup} />
         <Stack.Screen name='Events' component={Events} />
+        <Stack.Screen name='FindUsers' component={FindUsers} />
       </Stack.Navigator>
     </NavigationContainer>
   );

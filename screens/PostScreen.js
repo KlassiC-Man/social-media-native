@@ -30,6 +30,8 @@ function PostScreen({navigation}) {
     const [eventAdder, setEventAdder] = useState(false);
     const [eventName, setEventName] = useState('');
     const [eventDate, setEventDate] = useState(new Date());
+    const [currentUser, setCurrentUser] = useState('');
+    const [users, setUsers] = useState([]);
     /*const [video, setVideo] = useState('');
     const [status, setStatus] = useState({});*/
 
@@ -40,6 +42,21 @@ function PostScreen({navigation}) {
             setShowGifsSelector(true);
         }
     };
+
+    // Important useEffect to get the user from the db 
+    // The useEffect gets the user from the db and not from the authentication
+    // This is still in beta mode
+    useEffect(() => {
+        db.collection('users').onSnapshot(snapshot => (
+            snapshot.docs.map(doc => {
+                if (doc.data().email === user.email) {
+                    setCurrentUser(doc.id);
+                } else {
+                    return;
+                }
+            })
+        ))
+    }, [])
 
     //The current User!
     const user = firebase.auth().currentUser;
@@ -110,6 +127,7 @@ function PostScreen({navigation}) {
                     timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                     profilePic: user.photoURL,
                     likes: 0,
+                    userId: currentUser,
                 })
             })
             navigation.navigate('Home');
@@ -122,6 +140,7 @@ function PostScreen({navigation}) {
                 timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 profilePic: user.photoURL,
                 likes: 0,
+                userId: currentUser,
             })
             navigation.navigate('Home');
         } else {
@@ -132,6 +151,7 @@ function PostScreen({navigation}) {
                 timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
                 profilePic: user.photoURL,
                 likes: 0,
+                userId: currentUser,
             })
             navigation.navigate('Home');
         }

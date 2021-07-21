@@ -40,6 +40,14 @@ function Home({navigation}) {
                 data: doc.data()
             }))
         ))
+        posts.map(({id, data}) => {
+            db.collection('users').doc(String(data.userId)).collection('followers').onSnapshot(snapshot => setUserFolls(
+                snapshot.docs.map(doc => ({
+                    follId: doc.id,
+                    follData: doc.data(),
+                }))
+            ))
+        })
     }, [])
 
     useEffect(() => {
@@ -104,7 +112,7 @@ function Home({navigation}) {
                 <TouchableOpacity onPress={navigateToMarket}>
                     <Entypo name='shop' size={34} color='black' style={styles.headerLogo} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={navigateToChat}>
+                <TouchableOpacity onPress={() => navigation.navigate('FindUsers')}>
                     <FontAwesome name='group' size={34} color='black' style={styles.headerLogo} />
                 </TouchableOpacity>
                 <TouchableOpacity>
@@ -132,38 +140,9 @@ function Home({navigation}) {
                 <Avatar rounded size={60} source={{uri: user.photoURL}}/>
             </View>
             <View>
-                {/*posts.map(({id, data}) => (
-                    users.map(({userId, userData}) => {
-                        db.collection('users').doc(userId).collection('followers').onSnapshot(snapshot => setUserFolls(
-                            snapshot.docs.map(doc => ({
-                                follId: doc.id,
-                                follData: doc.data(),
-                            }))
-                        )).then(() => {
-                            userFolls.map(({follId, follData}) => {
-                                return follData;
-                            }).then((follData) => (
-                                follData.email === user.email ? 
-                                    <Post key={id} id={id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
-                            :null))
-                            }
-                        )
-                    })
-                ))*/}
                 {posts.map(({id, data}) => (
-                    users.map(({userId, userData}) => {
-                        db.collection('users').doc(userId).collection('followers').onSnapshot(snapshot => setUserFolls(
-                            snapshot.docs.map(doc => ({
-                                follId: doc.id,
-                                follData: doc.data
-                            }))
-                        ))
-                        userFolls.map(({follId, follData}) => {
-                            follData.email === user.email ? 
-                                <Post key={id} id={id} user={data.user} profilePic={data.profilePic} message={data.message} image={data.image} />
-                        :null})
-                    })
-                ))}
+                    <Post id={id} key={id} image={data.image} profilePic={data.profilePic} message={data.message} user={data.user} />
+                ))}        
             </View>
         </ScrollView>
     )

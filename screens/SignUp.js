@@ -14,6 +14,7 @@ function SignUp({navigation}) {
     const [imageUrl, setImageUrl] = useState(`https://ui-avatars.com/api/?name=${name}`);
     const [bio, setBio] = useState('');
     const [photo, setPhoto] = useState(`https://ui-avatars.com/api/?name=${name}`);
+    const [phoneNo, setPhoneNo] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -27,29 +28,35 @@ function SignUp({navigation}) {
     }, []);
 
     function signUp() {
-        const data = new FormData();
-        data.append('file', photo);
-        data.append('upload_preset', 'pfrzfrnr');
-        data.append('cloud_name', 'dyin2a2pd');
-        fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
-            method: 'post',
-            body: data
-        }).then(res => res.json()).then(data => {
-            db.collection('users').add({
-                name: name,
-                email: email,
-                follower: [],
-                following: [],
-                posts: [],
-                profilePic: data.secure_url
-            })
-            auth.createUserWithEmailAndPassword(email, password).then(authUser => {
-                authUser.user.updateProfile({
-                    displayName: name,
-                    photoURL: data.secure_url,
+        if (String(phoneNo).length !== 10) {
+            alert('Valid No Hasnt been entered!!');
+        } else {
+            const data = new FormData();
+            data.append('file', photo);
+            data.append('upload_preset', 'pfrzfrnr');
+            data.append('cloud_name', 'dyin2a2pd');
+            fetch('https://api.cloudinary.com/v1_1/dyin2a2pd/image/upload/', {
+                method: 'post',
+                body: data
+            }).then(res => res.json()).then(data => {
+                db.collection('users').add({
+                    name: name,
+                    email: email,
+                    follower: [],
+                    following: [],
+                    posts: [],
+                    profilePic: data.secure_url,
+                    phoneNo: phoneNo,
+                })
+                auth.createUserWithEmailAndPassword(email, password).then(authUser => {
+                    authUser.user.updateProfile({
+                        displayName: name,
+                        photoURL: data.secure_url,
+                        phoneNumber: phoneNo,
+                    })
                 })
             })
-        })
+        }
     };
         
 
@@ -82,7 +89,9 @@ function SignUp({navigation}) {
             </TouchableOpacity>
             <TextInput type='text' placeholder='Username' value={name} onChangeText={text => setName(text)} style={styles.input} />
             <TextInput type='email' placeholder='E-Mail' value={email} onChangeText={text => setEmail(text)} style={styles.input} />
-            <TextInput type='password' placeholder='password' value={password} secureTextEntry onChangeText={text => setPassword(text)} style={styles.input} />
+            <TextInput type='password' placeholder='Password' value={password} secureTextEntry onChangeText={text => setPassword(text)} style={styles.input} />
+            <TextInput type='text' placeholder='Phone No.' value={phoneNo} onChangeText={text => setPhoneNo(text)} style={styles.input} />
+            {String(phoneNo).length !== 10 ? <Text style={{marginLeft: 20, color: 'red'}}>Please Enter Valid Number!</Text>: null}
             {/*<TextInput type='text' placeholder='Image URL for Profile (Optional) .png or .jpeg links' onChangeText={text => setImageUrl(text)} style={styles.input} value={imageUrl} />*/}
             {/*<Input type='text' placeholder='Bio' value={bio} onChangeText={text => setBio(text)} style={{marginTop: 20, paddingTop: 10, height: 20}} multiline={true} />*/}
             {/*<Button title='Choose Profile Picture' onPress={profilePicChooser} style={styles.button} />*/}
