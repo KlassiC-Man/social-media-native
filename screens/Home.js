@@ -16,7 +16,6 @@ function Home({navigation}) {
     const [input, setInput] = useState('');
     const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const [contacts, setContacts] = useState([]);
     const [users, setUsers] = useState([]);
     const [userFolls, setUserFolls] = useState([]);
 

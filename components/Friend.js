@@ -1,21 +1,28 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
+import { ListItem } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function Friend({profilePic, name, id, phoneNo, email}) {
     return (
-        <View style={{width: '100%'}}>
-            <View style={{flexDirection: 'row'}}>
-                <Avatar source={{uri: profilePic}} size={100} rounded />
-                <Text style={{fontWeight: 'bold', fontSize: 25, marginLeft: 10, marginTop: 10}}>{name}</Text>
-            </View>
-            <View>
-                <TouchableOpacity style={{backgroundColor: 'cadetblue'}}>
-                    <Text>Follow</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+        <ListItem bottomDivider id={id} style={{}}>
+            <Avatar rounded source={{uri: profilePic}} size={80} />
+            <ListItem.Content>
+                <ListItem.Title style={{fontSize: 20, marginBottom: 5}}>
+                    {name}    
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                    <TouchableOpacity style={{backgroundColor: 'cadetblue', height: 35, width: 100, borderRadius: 10}}>
+                        <Text style={{color: 'white', textAlign: 'center', fontSize: 17}}>Follow</Text>
+                    </TouchableOpacity>   
+                    <View style={{height: 0, width: 5}} />
+                    <TouchableOpacity style={{borderRadius: 10, backgroundColor: 'white', borderWidth: 1, borderColor: 'cadetblue', height: 35, width: 100}}>
+                        <Text style={{color: 'cadetblue', textAlign: 'center', fontSize: 17}}>Visit</Text>
+                    </TouchableOpacity>
+                </ListItem.Subtitle>
+            </ListItem.Content>
+        </ListItem>
     )
 }
 
